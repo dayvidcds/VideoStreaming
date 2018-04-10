@@ -21,7 +21,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post('/a', (req, res) => {
-    const token = req.body.user
+    const token = req.body.token
     console.log(token)
     res.send('alou')
 })

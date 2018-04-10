@@ -36,12 +36,8 @@ class BalancerRouter {
                             .then((resp) => {
                                 res.send(resp)
                             })
-                            .catch((resp) => { <<
-                                << << < HEAD
-                                res.send('JÁ CADASTRADO!') ===
-                                    === =
-                                    res.send('JÁ EXISTE!') >>>
-                                    >>> > balancer
+                            .catch((resp) => {
+                                res.send('JÁ EXISTE!')
                             })
                     })
                     .catch((err) => {
