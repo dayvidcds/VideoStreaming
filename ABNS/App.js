@@ -11,7 +11,6 @@ const balancerRouter = new BalancerRouter(balancerBus)
 const express = require('express')
 const app = express()
 
-
 app.use('/balancer', balancerRouter.router)
 
 app.use('/', (req, res) => {
