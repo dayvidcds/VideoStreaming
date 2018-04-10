@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-class BalancerRepository {
+class NodeRepository {
     constructor(connection) {
         this.connection = connection
         this.schema = new mongoose.Schema({
@@ -9,15 +9,16 @@ class BalancerRepository {
             country_name: { type: String, required: false },
             region_code: { type: String, required: false },
             region_name: { type: String, required: false },
-            city: { type: String, required: false }
+            city: { type: String, required: false },
+            tags: { type: [String], required: false }
         })
-        this.balancerModel = this.connection.model('Balancers', this.schema)
+        this.nodeModel = this.connection.model('Node', this.schema)
     }
 
-    insert(balancer) {
+    insert(node) {
         return new Promise((resolve, reject) => {
-            const balancerRep = new this.balancerModel(balancer)
-            balancerRep.save((err, res) => {
+            const nodeRep = new this.nodeModel(node)
+            nodeRep.save((err, res) => {
                 if (err) {
                     reject(err)
                 }
@@ -28,7 +29,7 @@ class BalancerRepository {
 
     findAll() {
         return new Promise((resolve, reject) => {
-            this.balancerModel.find((err, res) => {
+            this.nodeModel.find((err, res) => {
                 if (err) {
                     reject(error)
                 }
@@ -39,7 +40,7 @@ class BalancerRepository {
 
     findByCountry(country) {
         return new Promise((resolve, reject) => {
-            this.balancerModel.find({ country_name: { $eq: country } }, (err, res) => {
+            this.nodeModel.find({ country_name: country }, (err, res) => {
                 if (err) {
                     reject(error)
                 }
@@ -48,11 +49,22 @@ class BalancerRepository {
         })
     }
 
-    findByAddress(address) {
+    findByAdress(address) {
         return new Promise((resolve, reject) => {
-            this.balancerModel.findOne({ address: { $eq: address } }, (err, res) => {
+            this.nodeModel.findOne({ address: { $eq: address } }, (err, res) => {
                 if (err || (res == null)) {
-                    reject(err)
+                    reject(error)
+                }
+                resolve(res)
+            })
+        })
+    }
+
+    findByContent(tags) {
+        return new Promise((resolve, reject) => {
+            this.nodeModel.find({ tags: { $in: tags } }, (err, res) => {
+                if (err) {
+                    reject(error)
                 }
                 resolve(res)
             })
@@ -61,7 +73,7 @@ class BalancerRepository {
 
     remove(address) {
         return new Promise((resolve, reject) => {
-            this.balancerModel.findOneAndRemove({ address: { $eq: address } }, (err, res) => {
+            this.nodeModel.findOneAndRemove({ address: { $eq: address } }, (err, res) => {
                 if (err) {
                     reject(err)
                 }
@@ -73,4 +85,4 @@ class BalancerRepository {
 
 }
 
-module.exports = BalancerRepository
+module.exports = NodeRepository

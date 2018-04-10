@@ -3,21 +3,30 @@ class BalancerBusiness {
         this.repository = balancerRepository
     }
 
-    insert(balancer) { // address, country_code, country_name, region_code, region_name, city
+    insert(balancerP) { // address, country_code, country_name, region_code, region_name, city
         return new Promise((resolve, reject) => {
-            this.repository.findByAddress(address)
-                .catch((err) => {
-                    this.repository.insert(balancer)
-                        .then((resp) => {
-                            resolve(resp)
-                        })
-                        .catch((resp) => {
-                            reject(resp)
-                        })
-                })
-                .then((resp) => {
-                    reject(resp)
-                })
+            console.log(balancerP.address)
+            this.repository.findByAddress(balancerP.address).catch((error) => {
+                console.log('entrou')
+                const balancer = {
+                    address: balancerP.address,
+                    country_code: balancerP.country_code,
+                    country_name: balancerP.country_name,
+                    region_code: balancerP.region_code,
+                    region_name: balancerP.region_name,
+                    city: balancerP.city
+                }
+                this.repository.insert(balancer)
+                    .then((resp) => {
+                        resolve(resp)
+                    })
+                    .catch((resp) => {
+                        reject(resp)
+                    })
+            }).then((resp) => {
+                reject(resp)
+            })
+
         })
     }
 

@@ -1,5 +1,6 @@
 /node_modules
 /ABNS/node_modules
+/balancer/node_modules
 npm-debug.log
 .DS_Store
 package-lock.json
@@ -8,3 +9,7 @@ package-lock.json
 /ABNS/.DS_Store
 /ABNS/package-lock.json
 /ABNS/.vscode
+/balancer/npm-debug.log
+/balancer/.DS_Store
+/balancer/package-lock.json
+/balancer/.vscode

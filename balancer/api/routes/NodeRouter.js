@@ -8,78 +8,52 @@ router.use(bodyParser.json())
 
 const TOKEN = '@BC0'
 
-class BalancerRouter {
-    constructor(balancerBusiness) {
-        this.balancerBusiness = balancerBusiness
+class nodeRouter {
+    constructor(nodeBusiness) {
+        this.nodeBusiness = nodeBusiness
         this.initializeRoutes()
         this.router = router
     }
 
     initializeRoutes() {
 
-        router.post('/registerAuto', (req, res) => {
+        router.post('/register', (req, res) => {
             const address = req.connection.remoteAddress
-            const addressSplit = address.split(':')
             const token = req.body.token
+            const tags = req.body.tags
             if (token == TOKEN) {
-                iplocation(addressSplit[3])
+                iplocation(address)
                     .then((resp) => {
-                        const balancer = {
-                            address: addressSplit[3],
+                        const node = {
+                            address: address,
                             country_code: resp.country_code,
                             country_name: resp.country_name,
                             region_code: resp.region_code,
                             region_name: resp.region_name,
-                            city: resp.city
+                            city: resp.city,
+                            tags: tags
                         }
-                        this.balancerBusiness.insert(balancer)
+                        this.nodeBusiness.insert(node)
                             .then((resp) => {
                                 res.send(resp)
                             })
                             .catch((resp) => {
-                                res.send('JÁ EXISTE!')
+                                res.send(resp)
                             })
                     })
                     .catch((err) => {
-                        res.send(err)
+                        console.error(err)
                     })
             } else {
                 res.send('TOKEN INVÁLIDO!')
             }
-            //res.send('ALOGO LOCO')
-        })
-
-        router.post('/registerManu', (req, res) => {
-            const token = req.body.token
-            if (token == TOKEN) {
-                const balancer = {
-                    address: req.body.address,
-                    country_code: req.body.country_code,
-                    country_name: req.body.country_name,
-                    region_code: req.body.region_code,
-                    region_name: req.body.region_name,
-                    city: req.body.city
-                }
-                this.balancerBusiness.insert(balancer)
-                    .then((resp) => {
-                        res.send(resp)
-                    })
-                    .catch((resp) => {
-                        res.send(resp)
-                    })
-            } else {
-                res.send('TOKEN INVÁLIDO!')
-            }
-            //res.send('ALOGO LOCO')
         })
 
         router.get('/info', (req, res) => {
             const address = req.connection.remoteAddress
-            const addressSplit = address.split(':')
-            console.log(addressSplit[3])
-            iplocation(addressSplit[3])
+            iplocation(address)
                 .then((resp) => {
-                    //console.log(resp)
+                    console.log(resp)
                     res.send(resp)
                 })
                 .catch((err) => {
@@ -98,11 +72,22 @@ class BalancerRouter {
                 })
         })
 
-        router.get('/findBalancers', (req, res) => {
+        router.get('/findContentByTag/:address', (req, res) => {
+            const addressp = req.params.tags
+            this.balancerBusiness.findByAddress(addressp)
+                .then((resp) => {
+                    res.send(resp)
+                })
+                .catch((resp) => {
+                    res.send('NÃO ENCONTRADO!')
+                })
+        })
+
+        router.get('/findnodes', (req, res) => {
             const address = req.connection.remoteAddress
             iplocation(address)
                 .then((resp) => {
-                    this.balancerBusiness.findByCountry(resp.country_name)
+                    this.nodeBusiness.findByCountry(resp.country_name)
                         .then((v) => {
                             res.send(v)
                         })
@@ -119,4 +104,4 @@ class BalancerRouter {
 
 }
 
-module.exports = BalancerRouter
+module.exports = nodeRouter

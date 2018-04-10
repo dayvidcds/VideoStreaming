@@ -1,0 +1,18 @@
+{
+    "name": "abns",
+    "version": "1.0.0",
+    "description": "Servidor de Nomes de Balanceadores Ativos",
+    "main": "server.js",
+    "scripts": {
+        "test": "server.js",
+        "start": "node server.js"
+    },
+    "author": "dayvidcds",
+    "license": "ISC",
+    "dependencies": {
+        "express": "^4.16.3",
+        "iplocation": "^5.0.0",
+        "mongoose": "^4.13.4",
+        "requestify": "^0.2.5"
+    }
+}
