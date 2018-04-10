@@ -17,9 +17,10 @@ class BalancerRouter {
 
     initializeRoutes() {
 
-        router.post('/register', (req, res) => {
+        router.get('/register/:token', (req, res, next) => {
             const address = req.connection.remoteAddress
-            const token = req.body.token
+            const token = req.params.token
+            console.log(address)
             if (token == TOKEN) {
                 iplocation(address)
                     .then((resp) => {
@@ -33,10 +34,13 @@ class BalancerRouter {
                         }
                         this.balancerBusiness.insert(balancer)
                             .then((resp) => {
+                                console.log('aloualu')
                                 res.send(resp)
+                                next()
                             })
                             .catch((resp) => {
                                 res.send(resp)
+                                next()
                             })
                     })
                     .catch((err) => {
@@ -45,6 +49,7 @@ class BalancerRouter {
             } else {
                 res.send('TOKEN INVÁLIDO!')
             }
+            //res.send('ALOGO LOCO')
         })
 
         router.get('/info', (req, res) => {

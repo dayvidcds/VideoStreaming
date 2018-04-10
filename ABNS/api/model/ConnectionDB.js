@@ -6,7 +6,7 @@ mongoose.Promise = global.Promise;
 
 (() => {
     let error = ''
-    const url = 'mongodb://' + dbconfig.address + ':' + dbconfig.port + '/' + dbconfig.db
+    const url = 'mongodb://' + dbconfig.user + ':' + dbconfig.pass + dbconfig.address + ':' + dbconfig.port + '/' + dbconfig.db
     mongoConn = mongoose.connect(url, { useMongoClient: true }, (err) => {
         if (err) {
             error = err

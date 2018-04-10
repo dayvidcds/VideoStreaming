@@ -1,7 +1,7 @@
 {
-    "address": "localhost",
-    "port": 27017,
-    "db": "ABNS",
-    "user": "",
-    "pass": ""
+    "address": "@ds139929.mlab.com",
+    "port": 39929,
+    "db": "abns",
+    "user": "dayvidcds",
+    "pass": "dayvid12344223"
 }
