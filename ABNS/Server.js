@@ -1,7 +1,7 @@
 const app = require('./App')
 const port = 3000
 
-const server = app.listen(port, '192.168.0.19', (err, res) => {
+const server = app.listen(port, (err, res) => {
     let error = ''
     if (err) {
         console.log('Server Connection ERROR')

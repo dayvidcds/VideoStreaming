@@ -1,7 +1,7 @@
 {
     "address": "localhost",
-    "port": 27017,
+    "port": "27017",
     "db": "ABNS",
-    "user": "",
-    "pass": ""
+    "user": "dayvidcds",
+    "pass": "dayvid12344223"
 }
