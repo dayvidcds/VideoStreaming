@@ -6,12 +6,10 @@ const BalancerRouter = require('./api/routes/BalancerRouter')
 
 const balancerRep = new BalancerRepository(db)
 const balancerBus = new BalancerBusiness(balancerRep)
-const balancerRouter = new BalancerRouter(balancerRep)
+const balancerRouter = new BalancerRouter(balancerBus)
 
 const express = require('express')
 const app = express()
-
-app.enable('trust proxy')
 
 app.use('/balancer', balancerRouter.router)
 
