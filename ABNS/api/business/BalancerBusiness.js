@@ -1,5 +1,3 @@
-const TOKEN = '@BC0'
-
 class BalancerBusiness {
     constructor(balancerRepository) {
         this.repository = balancerRepository
@@ -8,15 +6,7 @@ class BalancerBusiness {
     insert(balancer) { // address, country_code, country_name, region_code, region_name, city
         return new Promise((resolve, reject) => {
             this.repository.findByAddress(address)
-                .catch((error) => {
-                    /*const balancer = {
-                        address: address,
-                        country_code: country_code,
-                        country_name: country_name,
-                        region_code: region_code,
-                        region_name: region_name,
-                        city: city
-                    }*/
+                .catch((err) => {
                     this.repository.insert(balancer)
                         .then((resp) => {
                             resolve(resp)
@@ -68,13 +58,6 @@ class BalancerBusiness {
                 })
         })
     }
-
-    /*matchToken(token, callback) {
-        if (token == TOKEN) {
-            callback(true)
-        }
-        callback(false)
-    }*/
 
 }
 

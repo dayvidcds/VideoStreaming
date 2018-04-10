@@ -39,7 +39,7 @@ class BalancerRepository {
 
     findByCountry(country) {
         return new Promise((resolve, reject) => {
-            this.balancerModel.find({ country_name: country }, (err, res) => {
+            this.balancerModel.find({ country_name: { $eq: country } }, (err, res) => {
                 if (err) {
                     reject(error)
                 }
@@ -48,10 +48,11 @@ class BalancerRepository {
         })
     }
 
-    findByAdress(address) {
+    findByAddress(address) {
         return new Promise((resolve, reject) => {
-            this.balancerModel.find({ address: address }, (err, res) => {
+            this.balancerModel.find({ address: { $eq: address } }, (err, res) => {
                 if (err) {
+                    console.log(err)
                     reject(error)
                 }
                 resolve(res)

@@ -8,7 +8,7 @@ const server = app.listen(port, '192.168.0.19', (err, res) => {
         error = err
         return
     }
-    console.log('Server Connection SUCESS Started on: http://' + 'localhost' + ':' + port)
+    console.log('Server Connection SUCCESS Started on: http://' + 'localhost' + ':' + port)
     if (error !== '') {
         throw new Error(error)
     }
