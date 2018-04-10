@@ -36,7 +36,7 @@ class BalancerRouter {
                                 res.send(resp)
                             })
                             .catch((resp) => {
-                                res.send(resp)
+                                res.send('JÁ CADASTRADO!')
                             })
                     })
                     .catch((err) => {
@@ -56,6 +56,17 @@ class BalancerRouter {
                 })
                 .catch((err) => {
                     console.error(err)
+                })
+        })
+
+        router.get('/findByAddress/:address', (req, res) => {
+            const addressp = req.params.address
+            this.balancerBusiness.findByAddress(addressp)
+                .then((resp) => {
+                    res.send(resp)
+                })
+                .catch((resp) => {
+                    res.send('NÃO ENCONTRADO!')
                 })
         })
 
