@@ -17,15 +17,15 @@ class BalancerRouter {
 
     initializeRoutes() {
 
-        router.get('/register/:token', (req, res, next) => {
+        router.post('/registerAuto', (req, res) => {
             const address = req.connection.remoteAddress
-            const token = req.params.token
-            console.log(address)
+            const addressSplit = address.split(':')
+            const token = req.body.token
             if (token == TOKEN) {
-                iplocation(address)
+                iplocation(addressSplit[3])
                     .then((resp) => {
                         const balancer = {
-                            address: address,
+                            address: addressSplit[3],
                             country_code: resp.country_code,
                             country_name: resp.country_name,
                             region_code: resp.region_code,
@@ -34,17 +34,38 @@ class BalancerRouter {
                         }
                         this.balancerBusiness.insert(balancer)
                             .then((resp) => {
-                                console.log('aloualu')
                                 res.send(resp)
-                                next()
                             })
                             .catch((resp) => {
-                                res.send(resp)
-                                next()
+                                res.send('JÁ EXISTE!')
                             })
                     })
                     .catch((err) => {
-                        console.error(err)
+                        res.send(err)
+                    })
+            } else {
+                res.send('TOKEN INVÁLIDO!')
+            }
+            //res.send('ALOGO LOCO')
+        })
+
+        router.post('/registerManu', (req, res) => {
+            const token = req.body.token
+            if (token == TOKEN) {
+                const balancer = {
+                    address: req.body.address,
+                    country_code: req.body.country_code,
+                    country_name: req.body.country_name,
+                    region_code: req.body.region_code,
+                    region_name: req.body.region_name,
+                    city: req.body.city
+                }
+                this.balancerBusiness.insert(balancer)
+                    .then((resp) => {
+                        res.send(resp)
+                    })
+                    .catch((resp) => {
+                        res.send(resp)
                     })
             } else {
                 res.send('TOKEN INVÁLIDO!')
@@ -54,9 +75,11 @@ class BalancerRouter {
 
         router.get('/info', (req, res) => {
             const address = req.connection.remoteAddress
-            iplocation(address)
+            const addressSplit = address.split(':')
+            console.log(addressSplit[3])
+            iplocation(addressSplit[3])
                 .then((resp) => {
-                    console.log(resp)
+                    //console.log(resp)
                     res.send(resp)
                 })
                 .catch((err) => {

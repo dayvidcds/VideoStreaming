@@ -51,8 +51,8 @@ class NodeRepository {
 
     findByAdress(address) {
         return new Promise((resolve, reject) => {
-            this.nodeModel.find({ address: address }, (err, res) => {
-                if (err) {
+            this.nodeModel.findOne({ address: { $eq: address } }, (err, res) => {
+                if (err || (res == null)) {
                     reject(error)
                 }
                 resolve(res)

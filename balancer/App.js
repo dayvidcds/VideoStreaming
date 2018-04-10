@@ -1,5 +1,5 @@
 const db = require('./api/model/ConnectionDB')
-const IPABNS = '191.179.215.171'
+const IPABNS = '192.168.43.196'
 const PORT = '3000'
 const TOKENABNS = '@BC0'
 
@@ -11,32 +11,45 @@ const nodeRep = new NodeRepository(db)
 const nodeBus = new NodeBusiness(nodeRep)
 const nodeRouter = new NodeRouter(nodeBus)
 
-const request = require('request');
+const request = require('request')
 const express = require('express')
+var bodyParser = require('body-parser')
+
 const app = express()
 
-app.get('/up', (req, res, next) => {
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-    const myJSONObject = { token: TOKENABNS }
-        /*request({
-                url: 'http://' + IPABNS + ':' + PORT + '/balancer/register',
-                json: { token: TOKENABNS },
-                method: "POST",
-                json: true, // <--Very important!!!
-                body: myJSONObject
-            },
-            function(error, response, body) {
-                console.log(response);
-            })*/
-
-    return res.redirect(301, 'http://' + IPABNS + ':' + PORT + '/balancer/register/' + TOKENABNS)
-    next()
-
+app.post('/a', (req, res) => {
+    const token = req.body.user
+    console.log(token)
+    res.send('alou')
 })
 
 app.use('/node', nodeRouter.router)
 
 app.use('/', (req, res) => {
+    // Set the headers
+    var headers = {
+        'User-Agent': 'Super Agent/0.0.1',
+        'Content-Type': 'application/x-www-form-urlencoded'
+    }
+
+    // Configure the request
+    var options = {
+        url: 'http://191.179.215.171:3000/balancer/registerAuto',
+        method: 'POST',
+        headers: headers,
+        form: { token: TOKENABNS }
+    }
+
+    // Start the request
+    request(options, function(error, response, body) {
+        if (!error && response.statusCode == 200) {
+            // Print out the response body
+            console.log(body)
+        }
+    })
     res.send('WELCOME TO BALANCER!')
 })
 

@@ -11,7 +11,7 @@ class BalancerRepository {
             region_name: { type: String, required: false },
             city: { type: String, required: false }
         })
-        this.balancerModel = this.connection.model('Balancer', this.schema)
+        this.balancerModel = this.connection.model('Balancers', this.schema)
     }
 
     insert(balancer) {
@@ -39,7 +39,7 @@ class BalancerRepository {
 
     findByCountry(country) {
         return new Promise((resolve, reject) => {
-            this.balancerModel.find({ country_name: country }, (err, res) => {
+            this.balancerModel.find({ country_name: { $eq: country } }, (err, res) => {
                 if (err) {
                     reject(error)
                 }
@@ -50,9 +50,9 @@ class BalancerRepository {
 
     findByAddress(address) {
         return new Promise((resolve, reject) => {
-            this.balancerModel.find({ address: address }, (err, res) => {
-                if (err) {
-                    reject(error)
+            this.balancerModel.findOne({ address: { $eq: address } }, (err, res) => {
+                if (err || (res == null)) {
+                    reject(err)
                 }
                 resolve(res)
             })
