@@ -2,6 +2,9 @@
 /ABNS/node_modules
 npm-debug.log
 .DS_Store
+package-lock.json
 /*.env
 /ABNS/npm-debug.log
 /ABNS/.DS_Store
+/ABNS/package-lock.json
+/ABNS/.vscode

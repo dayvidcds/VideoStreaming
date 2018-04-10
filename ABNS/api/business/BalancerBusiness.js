@@ -1,5 +1,3 @@
-const TOKEN = '@BC0'
-
 class BalancerBusiness {
     constructor(balancerRepository) {
         this.repository = balancerRepository
@@ -69,12 +67,12 @@ class BalancerBusiness {
         })
     }
 
-    /*matchToken(token, callback) {
+    matchToken(token, callback) {
         if (token == TOKEN) {
             callback(true)
         }
         callback(false)
-    }*/
+    }
 
 }
 

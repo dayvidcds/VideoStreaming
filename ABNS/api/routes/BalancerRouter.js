@@ -6,6 +6,8 @@ const router = express.Router()
 router.use(bodyParser.urlencoded({ extended: true }))
 router.use(bodyParser.json())
 
+const TOKEN = '@BC0'
+
 class BalancerRouter {
     constructor(balancerBusiness) {
         this.balancerBusiness = balancerBusiness
@@ -18,36 +20,31 @@ class BalancerRouter {
         router.post('/register', (req, res) => {
             const address = req.connection.remoteAddress
             const token = req.body.token
-
-            //this.balancerBusiness.matchToken(token, (resp) => {
-            //  if (resp == true) {
-            iplocation(address)
-                .then((resp) => {
-                    const balancer = {
-                        address: address,
-                        country_code: resp.country_code,
-                        country_name: resp.country_name,
-                        region_code: resp.region_code,
-                        region_name: resp.region_name,
-                        city: resp.city
-                    }
-                    this.balancerBusiness.insert(balancer)
-                        .then((resp) => {
-                            res.send(resp)
-                        })
-                        .catch((resp) => {
-                            res.send(resp)
-                        })
-                })
-                .catch((err) => {
-                    console.error(err)
-                })
-                // } else {
-                // res.send('TOKEN INVÁLIDO!')
-                //}
-                //})
-
-
+            if (token == TOKEN) {
+                iplocation(address)
+                    .then((resp) => {
+                        const balancer = {
+                            address: address,
+                            country_code: resp.country_code,
+                            country_name: resp.country_name,
+                            region_code: resp.region_code,
+                            region_name: resp.region_name,
+                            city: resp.city
+                        }
+                        this.balancerBusiness.insert(balancer)
+                            .then((resp) => {
+                                res.send(resp)
+                            })
+                            .catch((resp) => {
+                                res.send(resp)
+                            })
+                    })
+                    .catch((err) => {
+                        console.error(err)
+                    })
+            } else {
+                res.send('TOKEN INVÁLIDO!')
+            }
         })
 
         router.get('/info', (req, res) => {
