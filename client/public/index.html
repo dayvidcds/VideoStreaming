@@ -14,6 +14,9 @@
         <input type="text" id="texto">
         <button id="botao">Buscar</button><br><br>
         <!-- Mude o src dessa tag para o nome do video que você possuir -->
+        <video id="v1" width="640" height="480" controls="controls">
+            
+            </video>
     </div>
 
     <script>
@@ -21,8 +24,10 @@
 
             var bla = $('#texto').val();
             //alert(bla);
-            $.get("http://localhost:3000/film/find/" + bla, function(result) {
-                alert(result)
+            $.get("http://191.179.215.171:3000/film/find/" + bla, function(result) {
+                // $("#v1").html('<source src="http://191.179.215.171:3000/film/streaming/play/"' + result.res.route_video + '" type="video/mp4"></source>');
+                $('#v1').attr('src', "http://191.179.215.171:3000/film/streaming/play/" + result.res.route_video);
+                alert(result.msg)
             })
 
         })

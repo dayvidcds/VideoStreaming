@@ -19,6 +19,7 @@ package-lock.json
 /node/.DS_Store
 /node/package-lock.json
 /node/.vscode
+/node/movies
 
 /client/npm-debug.log
 /client/.DS_Store

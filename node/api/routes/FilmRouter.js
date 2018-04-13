@@ -39,15 +39,27 @@ class FilmRouter {
                 this.local = resp.route_video
                 console.log('LOCAL: ', this.local)
                     //fs.readFile(publicDir + './index.html', (err, html) => res.end(html));
-                res.redirect('/streaming')
+                const re = {
+                    res: resp,
+                    msg: 'ENCONTRADO!'
+                }
+                res.send(re)
             }).catch((resp) => {
                 res.send('NÃO ENCONTRADO!')
             })
         })
 
-        router.get('/streaming', (req, res) => {
-            fs.readFile(publicDir + './index.html', (err, html) => res.end(html))
+        router.get('/findAll', (req, res) => {
+            this.filmBusiness.findAll().then((resp) => {
+                res.send(resp)
+            }).catch((resp) => {
+                res.send(resp)
+            })
         })
+
+        /*router.get('/streaming', (req, res) => {
+            fs.readFile(publicDir + './index.html', (err, html) => res.end(html))
+        })*/
 
         router.get('/streaming/play/:local', (req, res) => {
             const movieFile = 'movies/' + req.params.local

@@ -34,6 +34,18 @@ class FilmRepository {
         })
     }
 
+
+    findAll() {
+        return new Promise((resolve, reject) => {
+            this.filmModel.find((err, res) => {
+                if (err) {
+                    reject(err)
+                }
+                resolve(res)
+            })
+        })
+    }
+
     findByName(title) {
         return new Promise((resolve, reject) => {
             this.filmModel.findOne({ title: { $eq: title } }, (err, res) => {

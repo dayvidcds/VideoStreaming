@@ -14,6 +14,16 @@ class FilmBusiness {
         })
     }
 
+    findAll() {
+        return new Promise((resolve, reject) => {
+            this.repository.findAll().then((resp) => {
+                resolve(resp)
+            }).catch((resp) => {
+                reject(resp)
+            })
+        })
+    }
+
     findByTitle(title) {
         return new Promise((resolve, reject) => {
             this.repository.findByName(title).then((resp) => {
