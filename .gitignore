@@ -1,6 +1,8 @@
 /node_modules
 /ABNS/node_modules
 /balancer/node_modules
+/node/node_modules
+/client/node_modules
 npm-debug.log
 .DS_Store
 package-lock.json
@@ -13,3 +15,12 @@ package-lock.json
 /balancer/.DS_Store
 /balancer/package-lock.json
 /balancer/.vscode
+/node/npm-debug.log
+/node/.DS_Store
+/node/package-lock.json
+/node/.vscode
+
+/client/npm-debug.log
+/client/.DS_Store
+/client/package-lock.json
+/client/.vscode

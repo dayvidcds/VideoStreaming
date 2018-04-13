@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>VideoFlix</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+
+<body style="text-align:center">
+    <div style="margin:0 auto;">
+        <h1>VideoFlix</h1><br>
+        <input type="text" id="texto">
+        <button id="botao">Buscar</button><br><br>
+        <!-- Mude o src dessa tag para o nome do video que você possuir -->
+    </div>
+
+    <script>
+        $('#botao').click(function() {
+
+            var bla = $('#texto').val();
+            //alert(bla);
+            $.get("http://localhost:3000/film/find/" + bla, function(result) {
+                alert(result)
+            })
+
+        })
+    </script>
+
+</body>
+
+</html>
