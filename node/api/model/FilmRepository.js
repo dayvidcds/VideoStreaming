@@ -25,7 +25,7 @@ class FilmRepository {
 
     findByTags(tags) {
         return new Promise((resolve, reject) => {
-            this.filmModel.find({ tags: { $in: tags } }, (err, res) => {
+            this.filmModel.find({ 'tags': { $in: tags } }, (err, res) => {
                 if (err) {
                     reject(err)
                 }

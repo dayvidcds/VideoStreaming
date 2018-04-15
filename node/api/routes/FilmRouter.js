@@ -14,7 +14,6 @@ class FilmRouter {
         this.filmBusiness = filmBusiness
         this.initializeRoutes()
         this.router = router
-        this.local = null
     }
 
     initializeRoutes() {
@@ -22,7 +21,7 @@ class FilmRouter {
         router.post('/insert', (req, res) => {
             const film = {
                 route_video: req.body.route_video,
-                tags: req.body.tags,
+                tags: req.body.tags.split(','),
                 title: req.body.title
             }
             this.filmBusiness.insert(film).then((resp) => {
@@ -33,12 +32,9 @@ class FilmRouter {
         })
 
         router.get('/find/:title', (req, res) => {
-            const title = req.params.title
-            console.log(title)
+            const t = req.params.title
+            const title = t.replace(' ', '')
             this.filmBusiness.findByTitle(title).then((resp) => {
-                this.local = resp.route_video
-                console.log('LOCAL: ', this.local)
-                    //fs.readFile(publicDir + './index.html', (err, html) => res.end(html));
                 const re = {
                     res: resp,
                     msg: 'ENCONTRADO!'
@@ -51,6 +47,18 @@ class FilmRouter {
 
         router.get('/findAll', (req, res) => {
             this.filmBusiness.findAll().then((resp) => {
+                res.send(resp)
+            }).catch((resp) => {
+                res.send(resp)
+            })
+        })
+
+        router.get('/findByTags/:tags', (req, res) => {
+            const tags = req.params.tags
+            let ta = tags.replace(' ', '')
+            ta = ta.split(',')
+            console.log('PARAMMM ==>>>', ta)
+            this.filmBusiness.findByTags(ta).then((resp) => {
                 res.send(resp)
             }).catch((resp) => {
                 res.send(resp)
