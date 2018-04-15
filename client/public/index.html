@@ -67,7 +67,7 @@
 
                 var bla = $('#texto').val();
 
-                $.get("http://192.168.0.103:3000/film/findByTags/" + bla, function(dados) {
+                $.get("http://192.168.0.100:3000/film/findByTags/" + bla, function(dados) {
                     $('#tabela').empty()
 
                     if (Array.isArray(dados)) {
@@ -83,9 +83,9 @@
         function buscar(event) {
             var title = event.textContent
 
-            $.get("http://192.168.0.103:3000/film/find/" + title, function(result) {
+            $.get("http://192.168.0.100:3000/film/find/" + title, function(result) {
                 //alert(result.msg)
-                $('#v1').attr('src', "http://192.168.0.103:3000/film/streaming/play/" + result.res.route_video);
+                $('#v1').attr('src', "http://192.168.0.100:3000/film/streaming/play/" + result.res.route_video);
             })
         }
     </script>
