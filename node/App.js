@@ -1,10 +1,16 @@
 const db = require('./api/model/ConnectionDB')
-const IPABNS = '192.168.43.196'
-const PORT = '3000'
-const TOKENABNS = '@BC0'
 
 const express = require('express')
 const bodyParser = require('body-parser')
+
+const IP = require('ip')
+
+const myHostname = 'no1.com'
+const myIPaddr = IP.address() + ':3000'
+
+console.log(myIPaddr)
+
+var io = require('socket.io-client')
 
 const NodeBusiness = require('./api/business/NodeBusiness')
 const FilmBusiness = require('./api/business/FilmBusiness')
@@ -16,6 +22,20 @@ const filmBus = new FilmBusiness(filmRep)
 const filmRouter = new FilmRouter(filmBus)
 
 const app = express()
+
+const socket = io('http://192.168.137.240:4000')
+
+socket.on('connect', function() {
+    console.log(myHostname + '|' + myIPaddr + ' connected to server')
+    socket.on('discover', function(msg) {
+        console.log('new message from server > ', msg)
+        if (msg.discover === myHostname) {
+            socket.emit('discovered', { hostname: myHostname, ipaddr: myIPaddr })
+        }
+
+        //socket.emit('client response')
+    })
+})
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

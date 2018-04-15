@@ -62,30 +62,40 @@
     </div>
 
     <script>
+        var resu = null
+
         $(document).ready(function() {
             $('#botao').click(function() {
 
                 var bla = $('#texto').val();
 
-                $.get("http://192.168.0.100:3000/film/findByTags/" + bla, function(dados) {
-                    $('#tabela').empty()
+                $.get('http://192.168.137.240:4000/dns/findByAddress/' + 'no1.com', function(result) {
 
-                    if (Array.isArray(dados)) {
-                        for (var i = 0; dados.length > i; i++) {
-                            $('#tabela').append('<tr><td onClick="buscar(' + 'this' + ')"> ' + dados[i].title + '</td>' + '<td>' + dados[i].tags + '</td></tr>')
+                    console.log(result)
+
+                    resu = result
+
+                    $.get('http://' + result.ipaddr + '/film/findByTags/' + bla, function(dados) {
+                        $('#tabela').empty()
+
+                        if (Array.isArray(dados)) {
+                            for (var i = 0; dados.length > i; i++) {
+                                $('#tabela').append('<tr><td onClick="buscar(' + 'this' + ')"> ' + dados[i].title + '</td>' + '<td>' + dados[i].tags + '</td></tr>')
+                            }
                         }
-                    }
-                })
+                    })
 
+                })
             })
+
         })
 
         function buscar(event) {
             var title = event.textContent
 
-            $.get("http://192.168.0.100:3000/film/find/" + title, function(result) {
+            $.get('http://' + resu.ipaddr + '/film/find/' + title, function(result) {
                 //alert(result.msg)
-                $('#v1').attr('src', "http://192.168.0.100:3000/film/streaming/play/" + result.res.route_video);
+                $('#v1').attr('src', 'http://' + resu.ipaddr + '/film/streaming/play/' + result.res.route_video);
             })
         }
     </script>
