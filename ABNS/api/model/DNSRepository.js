@@ -30,7 +30,7 @@ class DNSRepository {
                 resolve(server)
                 return
             }
-            reject('SERVIDOR NAO ENCONTRADO')
+            reject('SERVIDOR NAO ENCONTRADO\n')
         })
     }
 

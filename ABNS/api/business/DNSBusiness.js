@@ -16,7 +16,7 @@ class DNSBusiness{
     /*Adiciona um novo servidor na tabela de servidores do DNS*/
     addServer(server){
         this.dnsRepository.insert(server).then(
-            res=>{console.log('servers ' + JSON.stringify(res) + ' saved on table')}
+            res=>{console.log('SERVIDOR ' + JSON.stringify(res) + ' SALVO NA TABELA')}
         ).catch(err => {
             console.log(err)
         })
@@ -37,17 +37,17 @@ class DNSBusiness{
                     }
                 ).catch(
                     err => {
-                        console.log(err + ' Buscando por um correspondente na rede...')
+                        console.log(err + ' BUSCANDO POR UM CORRESPONDENTE NA REDE')
                         const message = {discover: hostname}
                         this.sendBroadcastMessage(message)
                         let attempNumber = 0
                         const attempInterval = setInterval(()=>{
                             this.dnsRepository.getIPAddrByHostname(hostname).then(ipaddr =>{
-                                console.log('Encontrado! ' + ipaddr)
+                                console.log('ENCONTRADO NA REDE: ' + ipaddr)
                                 resolve(ipaddr)
                                 clearInterval(attempInterval)
                             }).catch(err => {
-                                console.log('tentativa ' + attempNumber++)
+                                console.log('TENTATIVA ' + attempNumber++)
                             })
                             if (attempNumber >= 3) {
                                 reject('NENHUM SERVIDOR CORRESPONDENTE ENCONTRADO')
@@ -66,7 +66,7 @@ class DNSBusiness{
     startServer(){
 
         this.server.on('connection', socket =>{
-            console.log('new connection oppened')
+            console.log('nova conexao aberta')
 
 //            socket.emit('message', { hello: 'world' });
 
