@@ -1,0 +1,7 @@
+{
+    "address": "localhost",
+    "port": "27017",
+    "db": "node",
+    "user": "dayvidcds",
+    "pass": "dayvid12344223"
+}

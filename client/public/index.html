@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>VideoFlix</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <style>
+        table {
+            width: 600px;
+            height: 20px;
+            float: left;
+            top: 70px;
+            position: relative;
+        }
+        
+        video {
+            top: -2px;
+            position: relative;
+            float: right;
+        }
+        
+        table th {
+            padding: 5px;
+            margin: 5px;
+            border: 1px solid #ccc;
+        }
+        
+        h2 {
+            top: 450px;
+            position: relative;
+            float: right;
+            left: 70px;
+        }
+        
+        td {
+            padding: 5px;
+            margin: 5px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+
+<body style="text-align:center">
+    <div style="margin:0 auto;">
+        <h1>VideoFlix</h1><br>
+        <input type="text" id="texto">
+        <button id="botao">Buscar</button>
+        <div id="tb">
+            <table>
+                <tr>
+                    <th>Título</th>
+                    <th>Palavras chave</th>
+                </tr>
+                <tbody id="tabela"></tbody>
+            </table>
+        </div>
+    </div>
+    <video id="v1" width="640" height="480" controls="controls"></video><br>
+    <h2>teste</h2>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('#botao').click(function() {
+
+                var bla = $('#texto').val();
+
+                $.get("http://192.168.0.100:3000/film/findByTags/" + bla, function(dados) {
+                    $('#tabela').empty()
+
+                    if (Array.isArray(dados)) {
+                        for (var i = 0; dados.length > i; i++) {
+                            $('#tabela').append('<tr><td onClick="buscar(' + 'this' + ')"> ' + dados[i].title + '</td>' + '<td>' + dados[i].tags + '</td></tr>')
+                        }
+                    }
+                })
+
+            })
+        })
+
+        function buscar(event) {
+            var title = event.textContent
+
+            $.get("http://192.168.0.100:3000/film/find/" + title, function(result) {
+                //alert(result.msg)
+                $('#v1').attr('src', "http://192.168.0.100:3000/film/streaming/play/" + result.res.route_video);
+            })
+        }
+    </script>
+
+</body>
+
+</html>
