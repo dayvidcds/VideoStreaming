@@ -3,6 +3,27 @@ class nodeBusiness {
         this.repository = nodeRepository
     }
 
+    updateTags(address, tags){
+
+        console.log('busss', address, tags)
+
+        return new Promise((resolve, reject) => {
+            this.repository.findByAddress(address)
+                .then(dados =>{
+                    this.repository.updateTags(address, tags)
+                        .then(resp =>{
+                            resolve(resp)
+                        }).catch(err=>{
+                           reject(err)
+                        })
+                })
+                .catch(err=>{
+                    reject(err)
+                })
+
+        })
+    }
+
     insert(node) { // address, country_code, country_name, region_code, region_name, city
         return new Promise((resolve, reject) => {
             this.repository.findByAddress(node.address)

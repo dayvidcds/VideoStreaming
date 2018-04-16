@@ -15,6 +15,18 @@ class NodeRepository {
         this.nodeModel = this.connection.model('Node', this.schema)
     }
 
+    updateTags(address, tags){
+        return new Promise((resolve, reject) => {
+
+            console.log(address, tags)
+
+            this.nodeModel.findOneAndUpdate({address: address}, {$addToSet:{tags: {$each:tags}}}, (err, res)=>{
+                if(err) {reject(err); return}
+                resolve(res)
+            })
+        })
+    }
+
     insert(node) {
         return new Promise((resolve, reject) => {
             const nodeRep = new this.nodeModel(node)

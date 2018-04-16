@@ -51,7 +51,7 @@ class FilmRouter {
                         }
 
                         const ipBusca = JSON.parse(body)
-                        const myHostname = 'no2.com'
+                        const myHostname = 'no3.com'
 
                         console.log('BOODYY  ', ipBusca.ipaddr)
 
