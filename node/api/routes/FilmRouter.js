@@ -5,6 +5,8 @@ const router = express.Router()
 const path = require('path')
 const request = require('request')
 
+const config = require('../configs/server.json')
+
 const publicDir = path.join(__dirname, '../../public/')
 
 router.use(bodyParser.urlencoded({ extended: true }))
@@ -27,9 +29,9 @@ class FilmRouter {
             }
             this.filmBusiness.insert(film).then((resp) => {
 
-                const DNS = 'http://192.168.137.240:4000'
+                const DNS = config.dnsaddress
 
-                const hostname = 'balancer01.com'
+                const hostname = config.blchostname
 
                 const headers = {
                     'User-Agent': 'Super Agent/0.0.1',
@@ -51,7 +53,7 @@ class FilmRouter {
                         }
 
                         const ipBusca = JSON.parse(body)
-                        const myHostname = 'no3.com'
+                        const myHostname = config.myhostname
 
                         console.log('BOODYY  ', ipBusca.ipaddr)
 

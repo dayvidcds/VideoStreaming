@@ -2,7 +2,7 @@
     "name": "node",
     "version": "1.0.0",
     "description": "Servidor de conteúdos",
-    "main": "App.js",
+    "main": "Server.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "start": "node server.js"
