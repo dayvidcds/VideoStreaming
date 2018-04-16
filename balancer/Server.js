@@ -1,5 +1,10 @@
 const app = require('./App')
-const port = 5000
+
+const ip = require('ip')
+
+const configs = require('./api/configs/server.json')
+
+const port = configs.myport
 
 const server = app.listen(port, (err, res) => {
     let error = ''
@@ -8,7 +13,7 @@ const server = app.listen(port, (err, res) => {
         error = err
         return
     }
-    console.log('Server Connection SUCESS Started on: http://' + 'localhost' + ':' + port)
+    console.log('Server Connection SUCESS Started on: http://' + ip.address() + ':' + port)
     if (error !== '') {
         throw new Error(error)
     }

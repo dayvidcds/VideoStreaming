@@ -6,8 +6,12 @@ const request = require('request')
 
 const IP = require('ip')
 
-const myHostname = 'no2.com'
-const myIPaddr = IP.address() + ':3001'
+const config = require('./api/configs/server.json')
+
+const myHostname = config.myhostname
+const myIPaddr = IP.address() + ':' + config.myport
+
+console.log('meu ip:'+ myIPaddr)
 
 console.log(myIPaddr)
 
@@ -24,7 +28,7 @@ const filmRouter = new FilmRouter(filmBus)
 
 const app = express()
 
-const DNS = 'http://192.168.137.240:4000'
+const DNS = config.dnsaddress
 
 const socket = io(DNS)
 
@@ -32,16 +36,17 @@ socket.on('connect', function() {
     console.log(myHostname + '|' + myIPaddr + ' connected to server')
     socket.on('discover', function(msg) {
         console.log('new message from server > ', msg)
+
+        console.log('meu host :', myHostname, 'host req:', msg.discover)
+
         if (msg.discover === myHostname) {
-            console.log('')
+            console.log('igual')
             socket.emit('discovered', { hostname: myHostname, ipaddr: myIPaddr })
         }
 
         //socket.emit('client response')
     })
 })
-
-const hostname = 'balancer01.com'
 
 const headers = {
     'User-Agent': 'Super Agent/0.0.1',
@@ -50,7 +55,7 @@ const headers = {
 
 // Configure the request
 const options = {
-    url: DNS + '/dns/findByAddress/' + hostname,
+    url: DNS + '/dns/findByAddress/' + config.blchostname,
     method: 'GET',
     headers: headers
 }
@@ -77,7 +82,7 @@ request(options, function(error, response, body) {
             url: 'http://' + ipBusca.ipaddr + '/node/register',
             method: 'POST',
             headers: headersInsert,
-            form: { address: myHostname, region_name: 'caruaru', tags: ['acao', 'aventura', 'futurista'], token: '@BC0' }
+            form: { address: myHostname, region_name: 'caruaru', token: '@BC0' }
         }
 
         request(optionsInsert, function(error, response, body) {

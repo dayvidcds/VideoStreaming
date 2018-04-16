@@ -19,10 +19,12 @@ const app = express()
 
 const ip = require('ip')
 
+const configs = require('./api/configs/server.json')
+
 const io = require('socket.io-client')
-const myHostname = 'balancer01.com'
-const myIPaddr = ip.address() + ':5000'
-const socket = io('http://' + ip.address() + ':4000')
+const myHostname = configs.myhostname
+const myIPaddr = ip.address() + ':' + configs.myport
+const socket = io(configs.dnsaddress)
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
