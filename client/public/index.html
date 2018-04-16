@@ -69,7 +69,7 @@
             var tags = $('#texto').val();
             $('#tabela').empty()
 
-            $.get('http://192.168.137.240:4000/dns/findByAddress/' + 'balancer01.com', function(result) {
+            $.get('http://192.168.5.94:4000/dns/findByAddress/' + 'balancer01.com', function(result) {
 
                 console.log(result)
 
@@ -83,7 +83,7 @@
 
                             console.log(dados[i])
 
-                            $.get('http://192.168.137.240:4000/dns/findByAddress/' + dados[i].address, function(result) {
+                            $.get('http://192.168.5.94:4000/dns/findByAddress/' + dados[i].address, function(result) {
 
                                 $.get('http://' + result.ipaddr + '/film/findByTags/' + tags, function(dados) {
 

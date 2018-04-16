@@ -16,4 +16,4 @@ app.use('/', (req, res) => {
     console.log('Novo cliente')
 })
 
-app.listen(2000, () => console.log('VideoFlix Server!'))
+app.listen(2000, () => console.log('VideoFlix Server!: port: 2000'))

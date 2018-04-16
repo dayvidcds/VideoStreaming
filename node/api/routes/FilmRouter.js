@@ -24,7 +24,7 @@ class FilmRouter {
         router.post('/insert', (req, res) => {
             const film = {
                 route_video: req.body.route_video,
-                tags: req.body.tags.split(','),
+                tags: req.body.tags.replace(' ', '').split(','),
                 title: req.body.title
             }
             this.filmBusiness.insert(film).then((resp) => {
