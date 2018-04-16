@@ -11,6 +11,13 @@ const dnsRep = new DNSRepository();
 const dnsBus = new DNSBusiness(dnsRep, io);
 const dnsRouter = new DNSRouter(dnsBus);
 
+app.use(function(req, res, next) {
+    // console.log(req.connection.remoteAddress)
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+})
+
 app.use('/dns', dnsRouter.router)
 
 app.use('/', (req, res) => {
