@@ -1,5 +1,5 @@
 const app = require('./App')
-const port = 3002
+const port = 3001
 
 const server = app.listen(port, (err, res) => {
     let error = ''

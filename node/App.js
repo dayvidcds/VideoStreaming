@@ -6,8 +6,8 @@ const request = require('request')
 
 const IP = require('ip')
 
-const myHostname = 'no3.com'
-const myIPaddr = IP.address() + ':3002'
+const myHostname = 'no2.com'
+const myIPaddr = IP.address() + ':3001'
 
 console.log(myIPaddr)
 
@@ -33,6 +33,7 @@ socket.on('connect', function() {
     socket.on('discover', function(msg) {
         console.log('new message from server > ', msg)
         if (msg.discover === myHostname) {
+            console.log('')
             socket.emit('discovered', { hostname: myHostname, ipaddr: myIPaddr })
         }
 
@@ -54,7 +55,7 @@ const options = {
     headers: headers
 }
 
-console.log('URILLLLL', options.url)
+//console.log('URILLLLL', options.url)
 
 // Start the request
 request(options, function(error, response, body) {
