@@ -64,37 +64,53 @@
     <script>
         var resu = null
 
-        $(document).ready(function() {
-            $('#botao').click(function() {
+        $('#botao').click(function() {
 
-                var bla = $('#texto').val();
+            var tags = $('#texto').val();
+            $('#tabela').empty()
 
-                $.get('http://192.168.137.240:4000/dns/findByAddress/' + 'no1.com', function(result) {
+            $.get('http://192.168.137.240:4000/dns/findByAddress/' + 'balancer01.com', function(result) {
 
-                    console.log(result)
+                console.log(result)
 
-                    resu = result
+                $.get('http://' + result.ipaddr + '/node/findContentByTags/' + tags, function(dados) {
 
-                    $.get('http://' + result.ipaddr + '/film/findByTags/' + bla, function(dados) {
-                        $('#tabela').empty()
+                    console.log('BALANCER->NODES = ', dados)
 
-                        if (Array.isArray(dados)) {
-                            for (var i = 0; dados.length > i; i++) {
-                                $('#tabela').append('<tr><td onClick="buscar(' + 'this' + ')"> ' + dados[i].title + '</td>' + '<td>' + dados[i].tags + '</td></tr>')
-                            }
+                    if (Array.isArray(dados)) {
+
+                        for (var i = 0; i < dados.length; i++) {
+
+                            console.log(dados[i])
+
+                            $.get('http://192.168.137.240:4000/dns/findByAddress/' + dados[i].address, function(result) {
+
+                                $.get('http://' + result.ipaddr + '/film/findByTags/' + tags, function(dados) {
+
+                                    resu = result
+
+                                    if (Array.isArray(dados)) {
+                                        for (var i = 0; dados.length > i; i++) {
+                                            $('#tabela').append('<tr><td id="' + result.ipaddr + '"onClick="buscar(' + 'this' + ')"> ' + dados[i].title + '</td>' + '<td>' + dados[i].tags + '</td></tr>')
+                                        }
+                                    }
+
+                                })
+
+                            })
                         }
-                    })
-
+                    }
                 })
-            })
 
+            })
         })
 
         function buscar(event) {
             var title = event.textContent
-
-            $.get('http://' + resu.ipaddr + '/film/find/' + title, function(result) {
+            var end = $(event).prop('id')
+            $.get('http://' + end + '/film/find/' + title, function(result) {
                 //alert(result.msg)
+                console.log('RESULT FILME => ', result)
                 $('#v1').attr('src', 'http://' + resu.ipaddr + '/film/streaming/play/' + result.res.route_video);
             })
         }

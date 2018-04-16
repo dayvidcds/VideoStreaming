@@ -2,11 +2,12 @@ const db = require('./api/model/ConnectionDB')
 
 const express = require('express')
 const bodyParser = require('body-parser')
+const request = require('request')
 
 const IP = require('ip')
 
-const myHostname = 'no1.com'
-const myIPaddr = IP.address() + ':3000'
+const myHostname = 'no2.com'
+const myIPaddr = IP.address() + ':3001'
 
 console.log(myIPaddr)
 
@@ -23,7 +24,9 @@ const filmRouter = new FilmRouter(filmBus)
 
 const app = express()
 
-const socket = io('http://192.168.137.240:4000')
+const DNS = 'http://192.168.137.240:4000'
+
+const socket = io(DNS)
 
 socket.on('connect', function() {
     console.log(myHostname + '|' + myIPaddr + ' connected to server')
@@ -35,6 +38,52 @@ socket.on('connect', function() {
 
         //socket.emit('client response')
     })
+})
+
+const hostname = 'balancer01.com'
+
+const headers = {
+    'User-Agent': 'Super Agent/0.0.1',
+    'Content-Type': 'application/x-www-form-urlencoded'
+}
+
+// Configure the request
+const options = {
+    url: DNS + '/dns/findByAddress/' + hostname,
+    method: 'GET',
+    headers: headers
+}
+
+console.log('URILLLLL', options.url)
+
+// Start the request
+request(options, function(error, response, body) {
+    if (!error && response.statusCode == 200) {
+        // Print out the response body
+        console.log(body)
+
+        const headersInsert = {
+            'User-Agent': 'Super Agent/0.0.1',
+            'Content-Type': 'application/x-www-form-urlencoded'
+        }
+
+        const ipBusca = JSON.parse(body)
+
+        console.log('BOODYY  ', ipBusca.ipaddr)
+
+        // Configure the request
+        const optionsInsert = {
+            url: 'http://' + ipBusca.ipaddr + '/node/register',
+            method: 'POST',
+            headers: headersInsert,
+            form: { address: myHostname, region_name: 'caruaru', tags: ['acao', 'aventura', 'futurista'], token: '@BC0' }
+        }
+
+        request(optionsInsert, function(error, response, body) {
+            console.log('RESPOSTA => ', body)
+        })
+
+    }
 })
 
 app.use(bodyParser.json());
