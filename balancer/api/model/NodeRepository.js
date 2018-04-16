@@ -15,6 +15,18 @@ class NodeRepository {
         this.nodeModel = this.connection.model('Node', this.schema)
     }
 
+    updateTags(address, tags){
+        return new Promise((resolve, reject) => {
+
+            console.log(address, tags)
+
+            this.nodeModel.findOneAndUpdate({address: address}, {$addToSet:{tags: {$each:tags}}}, (err, res)=>{
+                if(err) {reject(err); return}
+                resolve(res)
+            })
+        })
+    }
+
     insert(node) {
         return new Promise((resolve, reject) => {
             const nodeRep = new this.nodeModel(node)
@@ -49,11 +61,11 @@ class NodeRepository {
         })
     }
 
-    findByAdress(address) {
+    findByAddress(address) {
         return new Promise((resolve, reject) => {
             this.nodeModel.findOne({ address: { $eq: address } }, (err, res) => {
                 if (err || (res == null)) {
-                    reject(error)
+                    reject(err)
                 }
                 resolve(res)
             })
@@ -65,6 +77,17 @@ class NodeRepository {
             this.nodeModel.find({ tags: { $in: tags } }, (err, res) => {
                 if (err) {
                     reject(error)
+                }
+                resolve(res)
+            })
+        })
+    }
+
+    findByTags(tags) {
+        return new Promise((resolve, reject) => {
+            this.nodeModel.find({ 'tags': { $in: tags }},{address: true, _id: false}, (err, res) => {
+                if (err) {
+                    reject(err)
                 }
                 resolve(res)
             })

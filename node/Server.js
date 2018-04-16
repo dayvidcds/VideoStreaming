@@ -1,5 +1,5 @@
 const app = require('./App')
-const port = 4000
+const port = 3001
 
 const server = app.listen(port, (err, res) => {
     let error = ''
@@ -8,7 +8,7 @@ const server = app.listen(port, (err, res) => {
         error = err
         return
     }
-    console.log('Server Connection SUCCESS Started on: http://' + 'localhost' + ':' + port)
+    console.log('Server Connection SUCESS Started on: http://' + 'localhost' + ':' + port)
     if (error !== '') {
         throw new Error(error)
     }

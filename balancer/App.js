@@ -1,6 +1,6 @@
 const db = require('./api/model/ConnectionDB')
-const IPABNS = '192.168.43.196'
-const PORT = '3000'
+//const IPABNS = '192.168.43.196'
+//const PORT = '3000'
 const TOKENABNS = '@BC0'
 
 const NodeRepository = require('./api/model/nodeRepository')
@@ -13,12 +13,26 @@ const nodeRouter = new NodeRouter(nodeBus)
 
 const request = require('request')
 const express = require('express')
-var bodyParser = require('body-parser')
+const bodyParser = require('body-parser')
 
 const app = express()
 
+const ip = require('ip')
+
+const io = require('socket.io-client')
+const myHostname = 'balancer01.com'
+const myIPaddr = ip.address() + ':5000'
+const socket = io('http://' + ip.address() + ':4000')
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(function(req, res, next) {
+    // console.log(req.connection.remoteAddress)
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+})
 
 app.post('/a', (req, res) => {
     const token = req.body.token
@@ -37,7 +51,7 @@ app.use('/', (req, res) => {
 
     // Configure the request
     var options = {
-        url: 'http://191.179.215.171:3000/balancer/registerAuto',
+        url: 'http://' + myIPaddr + ':3000/balancer/registerAuto',
         method: 'POST',
         headers: headers,
         form: { token: TOKENABNS }
@@ -52,5 +66,17 @@ app.use('/', (req, res) => {
     })
     res.send('WELCOME TO BALANCER!')
 })
+
+socket.on('connect', ()=> {
+    console.log( myHostname + '|' +  myIPaddr +' conectado ao DNS')
+    socket.on('discover', (msg) => {
+        console.log('new message from server > ' , msg )
+        if(msg.discover === myHostname){
+            socket.emit('discovered', {hostname: myHostname, ipaddr: myIPaddr})
+        }
+        //socket.emit('client response')
+    });
+});
+
 
 module.exports = app
