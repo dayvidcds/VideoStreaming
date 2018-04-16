@@ -6,8 +6,8 @@ const request = require('request')
 
 const IP = require('ip')
 
-const myHostname = 'no2.com'
-const myIPaddr = IP.address() + ':3001'
+const myHostname = 'no3.com'
+const myIPaddr = IP.address() + ':3002'
 
 console.log(myIPaddr)
 

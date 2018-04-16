@@ -10,6 +10,11 @@
   "author": "dayvidcds",
   "license": "ISC",
   "dependencies": {
-    "ip": "^1.1.5"
+    "express": "^4.16.3",
+    "ip": "^1.1.5",
+    "iplocation": "^5.0.0",
+    "mongoose": "^4.13.4",
+    "requestify": "^0.2.5",
+    "socket.io-client": "^2.1.0"
   }
 }

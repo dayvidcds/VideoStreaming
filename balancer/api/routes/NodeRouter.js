@@ -75,7 +75,7 @@ class nodeRouter {
         })
 
         router.get('/findContentByTags/:tags', (req, res) => {
-            const tags = req.params.tags.split(',')
+            const tags = req.params.tags.replace(' ', '').split(',')
             this.nodeBusiness.findByTags(tags)
                 .then(resp => {
                     res.send(resp)
