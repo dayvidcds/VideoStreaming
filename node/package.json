@@ -1,15 +1,15 @@
 {
-  "name": "node",
-  "version": "1.0.0",
-  "description": "Servidor de conteúdos",
-  "main": "App.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
-  },
-  "author": "dayvidcds",
-  "license": "ISC",
-  "dependencies": {
-    "ip": "^1.1.5"
-  }
+    "name": "node",
+    "version": "1.0.0",
+    "description": "Servidor de conteúdos",
+    "main": "App.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node server.js"
+    },
+    "author": "dayvidcds",
+    "license": "ISC",
+    "dependencies": {
+        "ip": "^1.1.5"
+    }
 }

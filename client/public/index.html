@@ -87,7 +87,6 @@
 
                                 $.get('http://' + result.ipaddr + '/film/findByTags/' + tags, function(dados) {
 
-                                    resu = result
 
                                     if (Array.isArray(dados)) {
                                         for (var i = 0; dados.length > i; i++) {
@@ -111,7 +110,7 @@
             $.get('http://' + end + '/film/find/' + title, function(result) {
                 //alert(result.msg)
                 console.log('RESULT FILME => ', result)
-                $('#v1').attr('src', 'http://' + resu.ipaddr + '/film/streaming/play/' + result.res.route_video);
+                $('#v1').attr('src', 'http://' + end + '/film/streaming/play/' + result.res.route_video);
             })
         }
     </script>

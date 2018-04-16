@@ -3,6 +3,7 @@ const bodyParser = require('body-parser')
 const fs = require('fs')
 const router = express.Router()
 const path = require('path')
+const request = require('request')
 
 const publicDir = path.join(__dirname, '../../public/')
 
@@ -25,6 +26,49 @@ class FilmRouter {
                 title: req.body.title
             }
             this.filmBusiness.insert(film).then((resp) => {
+
+                const DNS = 'http://192.168.137.240:4000'
+
+                const hostname = 'balancer01.com'
+
+                const headers = {
+                    'User-Agent': 'Super Agent/0.0.1',
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+
+                const options = {
+                    url: DNS + '/dns/findByAddress/' + hostname,
+                    method: 'GET',
+                    headers: headers
+                }
+
+                request(options, function(error, response, body) {
+                    if (!error && response.statusCode == 200) {
+
+                        const headersInsert = {
+                            'User-Agent': 'Super Agent/0.0.1',
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        }
+
+                        const ipBusca = JSON.parse(body)
+                        const myHostname = 'no2.com'
+
+                        console.log('BOODYY  ', ipBusca.ipaddr)
+
+                        const optionsInsert = {
+                            url: 'http://' + ipBusca.ipaddr + '/node/insertMovie',
+                            method: 'POST',
+                            headers: headersInsert,
+                            form: { address: myHostname, tags: film.tags }
+                        }
+
+                        request(optionsInsert, function(error, response, body) {
+                            console.log('RESPOSTA => ', body)
+                        })
+
+                    }
+                })
+
                 res.send('<h2>INSERIDO!</h2><br><br>' + resp)
             }).catch((resp) => {
                 res.send('ERRO => ' + resp)
