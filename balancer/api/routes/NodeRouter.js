@@ -18,32 +18,34 @@ class nodeRouter {
     initializeRoutes() {
 
         router.post('/register', (req, res) => {
-            const address = req.connection.remoteAddress
+            const address = req.body.address
             const token = req.body.token
             const tags = req.body.tags
+            const regionName = req.body.region_name
+
+            console.log(req.body)
+
             if (token == TOKEN) {
-                iplocation(address)
+                const node = {
+                    address: address,
+                    region_name: regionName,
+                    tags: tags
+                }
+                this.nodeBusiness.insert(node)
                     .then((resp) => {
-                        const node = {
-                            address: address,
-                            country_code: resp.country_code,
-                            country_name: resp.country_name,
-                            region_code: resp.region_code,
-                            region_name: resp.region_name,
-                            city: resp.city,
-                            tags: tags
-                        }
-                        this.nodeBusiness.insert(node)
-                            .then((resp) => {
-                                res.send(resp)
-                            })
-                            .catch((resp) => {
-                                res.send(resp)
-                            })
+                        console.log('suc' + resp)
+                        res.send(resp)
                     })
-                    .catch((err) => {
-                        console.error(err)
+                    .catch((resp) => {
+                        console.log('err' + resp)
+                        res.send(
+                            {
+                                status: 'error',
+                                error: 'JA EXISTE'
+                            }
+                        )
                     })
+
             } else {
                 res.send('TOKEN INVÁLIDO!')
             }
@@ -72,14 +74,14 @@ class nodeRouter {
                 })
         })
 
-        router.get('/findContentByTag/:address', (req, res) => {
-            const addressp = req.params.tags
-            this.balancerBusiness.findByAddress(addressp)
-                .then((resp) => {
+        router.get('/findContentByTags/:tags', (req, res) => {
+            const tags = req.params.tags.split(',')
+            this.nodeBusiness.findByTags(tags)
+                .then(resp => {
                     res.send(resp)
                 })
-                .catch((resp) => {
-                    res.send('NÃO ENCONTRADO!')
+                .catch(err => {
+                    res.send('NÃO ENCONTRADO!' + err)
                 })
         })
 

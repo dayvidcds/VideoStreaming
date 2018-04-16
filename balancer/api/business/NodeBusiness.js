@@ -5,7 +5,7 @@ class nodeBusiness {
 
     insert(node) { // address, country_code, country_name, region_code, region_name, city
         return new Promise((resolve, reject) => {
-            this.repository.findByAddress(address)
+            this.repository.findByAddress(node.address)
                 .catch((error) => {
                     this.repository.insert(node)
                         .then((resp) => {
@@ -18,6 +18,16 @@ class nodeBusiness {
                 .then((resp) => {
                     reject(resp)
                 })
+        })
+    }
+
+    findByTags(tags) {
+        return new Promise((resolve, reject) => {
+            this.repository.findByTags(tags).then(res=>{
+                resolve(res)
+            }).catch(err =>{
+                reject(err)
+            })
         })
     }
 
