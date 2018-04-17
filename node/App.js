@@ -53,10 +53,8 @@ socket.on('changes'), msg => {
     filmBus.downloadMedia(msg.address, msg.film)
         .then(resp => {
             console.log(resp)
-
-            /* eNVIAR UMA MENSAGEM AO BALANCEADOR PARA 
-                ATUALIZAR A LISTA DE TAGS
-            */
+            
+            /* registrar o novo filme */
 
             /* 
             

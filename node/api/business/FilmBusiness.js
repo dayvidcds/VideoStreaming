@@ -51,7 +51,7 @@ class FilmBusiness {
     downloadMedia(address ,movie){
         return new Promise((resolve, reject) => {
 
-            /* OBTER ENDERECO DO BALANCEADOR PELO DNS */
+            /* OBTENDO ENDERECO DO BALANCEADOR PELO DNS */
 
             const headers = {
                 'User-Agent': 'Super Agent/0.0.1',
