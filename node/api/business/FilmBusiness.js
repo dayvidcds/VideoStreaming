@@ -63,16 +63,13 @@ class FilmBusiness {
                 headers: headers
             }
 
-            // Start the request
             request(options, function(error, response, body) {
                 if (!error && response.statusCode == 200) {
-                    // Print out the response body
-                    console.log(body)
 
                     const address = JSON.parse(body)
 
                     const opts = {
-                        url: 'http://' + address + `/filme/streaming/play/${movie.route_video}`,
+                        url: 'http://' + address.ipaddr + `/filme/streaming/play/${movie.route_video}`,
                         method: 'GET',
                         headers: headers
                     }

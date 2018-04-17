@@ -56,6 +56,80 @@ socket.on('changes'), msg => {
             
             /* registrar o novo filme */
 
+
+/* 
+
+const film = {
+                route_video: req.body.route_video,
+                tags: req.body.tags.replace(' ', '').split(','),
+                title: req.body.title
+            }
+            this.filmBusiness.insert(film).then((resp) => {
+
+                const DNS = config.dnsaddress
+
+                const hostname = config.blchostname
+
+                const headers = {
+                    'User-Agent': 'Super Agent/0.0.1',
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+
+                const options = {
+                    url: DNS + '/dns/findByAddress/' + hostname,
+                    method: 'GET',
+                    headers: headers
+                }
+
+
+                /* 
+                    Envia o objeto do filme para o balanceador 
+                    notificar os demais nós sobre a modificacao,
+                    para que eles baixem o filme
+                 
+               request(options, function(error, response, body) {
+                if (!error && response.statusCode == 200) {
+
+                    const headersInsert = {
+                        'User-Agent': 'Super Agent/0.0.1',
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+
+                    const ipBusca = JSON.parse(body)
+                    const myHostname = config.myhostname
+
+                    console.log('BOODYY  ', ipBusca.ipaddr)
+
+                    /* 
+                    const optionsInsert = {
+                        url: 'http://' + ipBusca.ipaddr + '/node/insertMovie',
+                        method: 'POST',
+                        headers: headersInsert,
+                        form: { address: myHostname, tags: film.tags }
+                    }
+                    
+
+                    const optionsInsert = {
+                        url: 'http://' + ipBusca.ipaddr + '/node/insertMovie',
+                        method: 'POST',
+                        headers: headersInsert,
+                        form: { address: myHostname, film: film }
+                    }
+
+                    request(optionsInsert, function(error, response, body) {
+                        console.log('RESPOSTA => ', body)
+                    })
+
+                }
+            })
+
+            res.send('<h2>INSERIDO!</h2><br><br>' + resp)
+        }).catch((resp) => {
+            res.send('ERRO => ' + resp)
+        })
+
+*/
+
             /* 
             
             const headers = {
