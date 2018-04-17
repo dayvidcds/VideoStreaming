@@ -11,7 +11,7 @@ const config = require('./api/configs/server.json')
 const myHostname = config.myhostname
 const myIPaddr = IP.address() + ':' + config.myport
 
-console.log('meu ip:'+ myIPaddr)
+console.log('meu ip:' + myIPaddr)
 
 console.log(myIPaddr)
 
@@ -66,27 +66,30 @@ const options = {
 request(options, function(error, response, body) {
     if (!error && response.statusCode == 200) {
         // Print out the response body
-        console.log(body)
+        //console.log(body)
+        //console.log('BOODYY  ', ipBusca.ipaddr)
 
-        const headersInsert = {
-            'User-Agent': 'Super Agent/0.0.1',
-            'Content-Type': 'application/x-www-form-urlencoded'
-        }
+        filmBus.findTags().then((resp) => {
+            const headersInsert = {
+                'User-Agent': 'Super Agent/0.0.1',
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
 
-        const ipBusca = JSON.parse(body)
+            const ipBusca = JSON.parse(body)
 
-        console.log('BOODYY  ', ipBusca.ipaddr)
+            //console.log('TAGS => ', resp)
 
-        // Configure the request
-        const optionsInsert = {
-            url: 'http://' + ipBusca.ipaddr + '/node/register',
-            method: 'POST',
-            headers: headersInsert,
-            form: { address: myHostname, region_name: 'caruaru', token: '@BC0' }
-        }
+            const optionsInsert = {
+                url: 'http://' + ipBusca.ipaddr + '/node/register',
+                method: 'POST',
+                headers: headersInsert,
+                form: { address: myHostname, region_name: 'caruaru', token: '@BC0', tags: resp }
+            }
 
-        request(optionsInsert, function(error, response, body) {
-            console.log('RESPOSTA => ', body)
+            request(optionsInsert, function(error, response, body) {
+                console.log('RESPOSTA => ', body)
+            })
+
         })
 
     }

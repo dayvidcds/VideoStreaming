@@ -11,14 +11,14 @@ app.use(function(req, res, next) {
 })
 
 var socket = io('http://localhost:4000');
-  socket.on('connect', function () {
-	console.log( myHostname + '|' +  myIPaddr +' connected to server')
-	socket.on('discover', function (msg) {
-      console.log('new message from server > ' , msg )
-	  if(msg.discover === myHostname){
-		socket.emit('discovered', {hostname: myHostname, ipaddr: myIPaddr})
-	}
-	  
-	  //socket.emit('client response')
+socket.on('connect', function() {
+    console.log(myHostname + '|' + myIPaddr + ' connected to server')
+    socket.on('discover', function(msg) {
+        console.log('new message from server > ', msg)
+        if (msg.discover === myHostname) {
+            socket.emit('discovered', { hostname: myHostname, ipaddr: myIPaddr })
+        }
+
+        //socket.emit('client response')
     });
-  });
+});

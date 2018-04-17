@@ -9,6 +9,9 @@ const config = require('../configs/server.json')
 
 const publicDir = path.join(__dirname, '../../public/')
 
+const DNS = config.dnsaddress
+const hostname = config.blchostname
+
 router.use(bodyParser.urlencoded({ extended: true }))
 router.use(bodyParser.json())
 
@@ -28,10 +31,6 @@ class FilmRouter {
                 title: req.body.title
             }
             this.filmBusiness.insert(film).then((resp) => {
-
-                const DNS = config.dnsaddress
-
-                const hostname = config.blchostname
 
                 const headers = {
                     'User-Agent': 'Super Agent/0.0.1',
@@ -58,7 +57,7 @@ class FilmRouter {
                         console.log('BOODYY  ', ipBusca.ipaddr)
 
                         const optionsInsert = {
-                            url: 'http://' + ipBusca.ipaddr + '/node/insertMovie',
+                            url: 'http://' + ipBusca.ipaddr + '/node/insertTags',
                             method: 'POST',
                             headers: headersInsert,
                             form: { address: myHostname, tags: film.tags }
@@ -70,21 +69,44 @@ class FilmRouter {
 
                     }
                 })
-
-                res.send('<h2>INSERIDO!</h2><br><br>' + resp)
+                res.send('INSERIDO!<br>' + resp)
             }).catch((resp) => {
                 res.send('ERRO => ' + resp)
             })
         })
 
-        router.get('/find/:title', (req, res) => {
+        router.get('/find/:title/:region', (req, res) => {
             const t = req.params.title
             const title = t.replace(' ', '')
+            const client_region = req.params.region
+
             this.filmBusiness.findByTitle(title).then((resp) => {
                 const re = {
                     res: resp,
                     msg: 'ENCONTRADO!'
                 }
+                this.filmBusiness.findViewsByRegion(client_region, title)
+                    .then((resp) => {
+                        console.log('findViewsByRegion')
+                        this.filmBusiness.addViews(client_region, title)
+                            .then((resp) => {
+                                console.log('addViews')
+                                console.log(title + ' foi solicitado')
+                            })
+                            .catch((resp) => {
+                                console.log('não adicionado')
+                            })
+                    })
+                    .catch((resp) => {
+                        this.filmBusiness.addRegionInViews(client_region, title)
+                            .then((resp) => {
+                                console.log('addRegionInViews')
+                                console.log('Nova Região Está Assistindo!')
+                            })
+                            .catch((resp) => {
+                                console.log('Não Conseguiu Add Região!')
+                            })
+                    })
                 res.send(re)
             }).catch((resp) => {
                 res.send('NÃO ENCONTRADO!')
@@ -103,17 +125,13 @@ class FilmRouter {
             const tags = req.params.tags
             let ta = tags.replace(' ', '')
             ta = ta.split(',')
-            console.log('PARAMMM ==>>>', ta)
+                //console.log('PARAMMM ==>>>', ta)
             this.filmBusiness.findByTags(ta).then((resp) => {
                 res.send(resp)
             }).catch((resp) => {
                 res.send(resp)
             })
         })
-
-        /*router.get('/streaming', (req, res) => {
-            fs.readFile(publicDir + './index.html', (err, html) => res.end(html))
-        })*/
 
         router.get('/streaming/play/:local', (req, res) => {
             const movieFile = 'movies/' + req.params.local

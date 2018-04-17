@@ -39,6 +39,10 @@
             margin: 5px;
             border: 1px solid #ccc;
         }
+        
+        td:hover {
+            color: red;
+        }
     </style>
 </head>
 
@@ -69,7 +73,7 @@
             var tags = $('#texto').val();
             $('#tabela').empty()
 
-            $.get('http://192.168.5.94:4000/dns/findByAddress/' + 'balancer01.com', function(result) {
+            $.get('http://10.1.3.191:4000/dns/findByAddress/' + 'balancer01.com', function(result) {
 
                 console.log(result)
 
@@ -83,7 +87,7 @@
 
                             console.log(dados[i])
 
-                            $.get('http://192.168.5.94:4000/dns/findByAddress/' + dados[i].address, function(result) {
+                            $.get('http://10.1.3.191:4000/dns/findByAddress/' + dados[i].address, function(result) {
 
                                 $.get('http://' + result.ipaddr + '/film/findByTags/' + tags, function(dados) {
 
@@ -107,7 +111,7 @@
         function buscar(event) {
             var title = event.textContent
             var end = $(event).prop('id')
-            $.get('http://' + end + '/film/find/' + title, function(result) {
+            $.get('http://' + end + '/film/find/' + title + '/caruaru', function(result) {
                 //alert(result.msg)
                 console.log('RESULT FILME => ', result)
                 $('#v1').attr('src', 'http://' + end + '/film/streaming/play/' + result.res.route_video);

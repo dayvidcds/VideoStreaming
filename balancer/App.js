@@ -1,6 +1,6 @@
 const db = require('./api/model/ConnectionDB')
-//const IPABNS = '192.168.43.196'
-//const PORT = '3000'
+    //const IPABNS = '192.168.43.196'
+    //const PORT = '3000'
 const TOKENABNS = '@BC0'
 
 const NodeRepository = require('./api/model/nodeRepository')
@@ -69,12 +69,12 @@ app.use('/', (req, res) => {
     res.send('WELCOME TO BALANCER!')
 })
 
-socket.on('connect', ()=> {
-    console.log( myHostname + '|' +  myIPaddr +' conectado ao DNS')
+socket.on('connect', () => {
+    console.log(myHostname + '|' + myIPaddr + ' conectado ao DNS')
     socket.on('discover', (msg) => {
-        console.log('new message from server > ' , msg )
-        if(msg.discover === myHostname){
-            socket.emit('discovered', {hostname: myHostname, ipaddr: myIPaddr})
+        console.log('new message from server > ', msg)
+        if (msg.discover === myHostname) {
+            socket.emit('discovered', { hostname: myHostname, ipaddr: myIPaddr })
         }
         //socket.emit('client response')
     });

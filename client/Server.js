@@ -5,10 +5,6 @@ const app = express()
 
 const publicDir = path.join(__dirname, './public/')
 
-app.get('/streaming', (req, res) => {
-    fs.readFile(publicDir + './index.html', (err, html) => res.end(html))
-})
-
 app.use('/', (req, res) => {
     fs.readFile(publicDir + './index.html', (err, html) => res.end(html))
         // res.sendFile(publicDir + 'index.html')

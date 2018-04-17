@@ -17,7 +17,7 @@ class nodeRouter {
 
     initializeRoutes() {
 
-        router.post('/insertMovie', (req, res) => {
+        router.post('/insertTags', (req, res) => {
             const tags = req.body.tags
             const address = req.body.address
 
@@ -25,20 +25,16 @@ class nodeRouter {
 
             this.nodeBusiness.updateTags(address, tags)
                 .then(result => {
-                    res.json(
-                        {
-                            status: 'success',
-                            msg: result
-                        }
-                    )
+                    res.json({
+                        status: 'success',
+                        msg: result
+                    })
                 })
                 .catch(err => {
-                    res.json(
-                        {
-                            status: 'error',
-                            error: err
-                        }
-                    )
+                    res.json({
+                        status: 'error',
+                        error: err
+                    })
                 })
 
         })
@@ -64,12 +60,10 @@ class nodeRouter {
                     })
                     .catch((resp) => {
                         console.log('err' + resp)
-                        res.send(
-                            {
-                                status: 'error',
-                                error: 'JA EXISTE'
-                            }
-                        )
+                        res.send({
+                            status: 'error',
+                            error: 'JA EXISTE'
+                        })
                     })
 
             } else {
