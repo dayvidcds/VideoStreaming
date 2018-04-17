@@ -24,7 +24,7 @@ class FilmRouter {
         router.post('/insert', (req, res) => {
             const film = {
                 route_video: req.body.route_video,
-                tags: req.body.tags.split(','),
+                tags: req.body.tags.replace(' ', '').split(','),
                 title: req.body.title
             }
             this.filmBusiness.insert(film).then((resp) => {
@@ -44,6 +44,12 @@ class FilmRouter {
                     headers: headers
                 }
 
+
+                /* 
+                    Envia o objeto do filme para o balanceador 
+                    notificar os demais nós sobre a modificacao,
+                    para que eles baixem o filme
+                */                
                 request(options, function(error, response, body) {
                     if (!error && response.statusCode == 200) {
 
@@ -57,11 +63,20 @@ class FilmRouter {
 
                         console.log('BOODYY  ', ipBusca.ipaddr)
 
+                        /* 
                         const optionsInsert = {
                             url: 'http://' + ipBusca.ipaddr + '/node/insertMovie',
                             method: 'POST',
                             headers: headersInsert,
                             form: { address: myHostname, tags: film.tags }
+                        }
+                        */
+
+                        const optionsInsert = {
+                            url: 'http://' + ipBusca.ipaddr + '/node/insertMovie',
+                            method: 'POST',
+                            headers: headersInsert,
+                            form: { address: myHostname, film: film }
                         }
 
                         request(optionsInsert, function(error, response, body) {

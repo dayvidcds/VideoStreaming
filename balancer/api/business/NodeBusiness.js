@@ -1,12 +1,16 @@
 class nodeBusiness {
-    constructor(nodeRepository) {
+    constructor(nodeRepository, socket) {
         this.repository = nodeRepository
+        this.broadcastSocket = socket
+    }
+
+     /* {film, address} */
+    notifyChanges(nodeChangeInfo){
+        this.broadcastSocket.emit('changes', nodeChangeInfo)
     }
 
     updateTags(address, tags){
-
         console.log('busss', address, tags)
-
         return new Promise((resolve, reject) => {
             this.repository.findByAddress(address)
                 .then(dados =>{

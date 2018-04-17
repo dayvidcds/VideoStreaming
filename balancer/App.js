@@ -7,14 +7,6 @@ const NodeRepository = require('./api/model/nodeRepository')
 const NodeBusiness = require('./api/business/nodeBusiness')
 const NodeRouter = require('./api/routes/nodeRouter')
 
-const nodeRep = new NodeRepository(db)
-const nodeBus = new NodeBusiness(nodeRep)
-const nodeRouter = new NodeRouter(nodeBus)
-
-const request = require('request')
-const express = require('express')
-const bodyParser = require('body-parser')
-
 const app = express()
 
 const ip = require('ip')
@@ -25,6 +17,14 @@ const io = require('socket.io-client')
 const myHostname = configs.myhostname
 const myIPaddr = ip.address() + ':' + configs.myport
 const socket = io(configs.dnsaddress)
+
+const nodeRep = new NodeRepository(db)
+const nodeBus = new NodeBusiness(nodeRep, socket)
+const nodeRouter = new NodeRouter(nodeBus)
+
+const request = require('request')
+const express = require('express')
+const bodyParser = require('body-parser')
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -72,13 +72,13 @@ app.use('/', (req, res) => {
 socket.on('connect', ()=> {
     console.log( myHostname + '|' +  myIPaddr +' conectado ao DNS')
     socket.on('discover', (msg) => {
-        console.log('new message from server > ' , msg )
+        console.log('new [discover] message from server > ' , msg )
         if(msg.discover === myHostname){
             socket.emit('discovered', {hostname: myHostname, ipaddr: myIPaddr})
         }
         //socket.emit('client response')
-    });
-});
+    })
+})
 
 
 module.exports = app

@@ -18,29 +18,39 @@ class nodeRouter {
     initializeRoutes() {
 
         router.post('/insertMovie', (req, res) => {
-            const tags = req.body.tags
+            const film = req.body.film
             const address = req.body.address
 
             console.log(req.body)
 
-            this.nodeBusiness.updateTags(address, tags)
-                .then(result => {
-                    res.json(
-                        {
-                            status: 'success',
-                            msg: result
-                        }
-                    )
-                })
-                .catch(err => {
-                    res.json(
-                        {
-                            status: 'error',
-                            error: err
-                        }
-                    )
-                })
+            /* {film, address} */
+            this.nodeBusiness.notifyChanges(req.body)
+             res.json({
+                 status: 'sent'
+             })       
+        })
 
+        router.post('/updateTags', (req, res)=>{
+            const address = req.body.address
+            const tags = req.body.tags
+            
+            this.nodeBusiness.updateTags(address, tags)
+            .then(result => {
+                res.json(
+                    {
+                        status: 'success',
+                        msg: result
+                    }
+                )
+            })
+            .catch(err => {
+                res.json(
+                    {
+                        status: 'error',
+                        error: err
+                    }
+                )
+            })
         })
 
         router.post('/register', (req, res) => {

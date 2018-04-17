@@ -48,6 +48,77 @@ socket.on('connect', function() {
     })
 })
 
+socket.on('changes'), msg => {
+    console.log('new message [changes] from server > ' , msg )
+    filmBus.downloadMedia(msg.address, msg.film)
+        .then(resp => {
+            console.log(resp)
+
+            /* eNVIAR UMA MENSAGEM AO BALANCEADOR PARA 
+                ATUALIZAR A LISTA DE TAGS
+            */
+
+            /* 
+            
+            const headers = {
+                'User-Agent': 'Super Agent/0.0.1',
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+
+            // Configure the request
+            const options = {
+                url: DNS + '/dns/findByAddress/' + config.blchostname,
+                method: 'GET',
+                headers: headers
+            }
+
+            //console.log('URILLLLL', options.url)
+
+            // Start the request
+            request(options, function(error, response, body) {
+                if (!error && response.statusCode == 200) {
+                    // Print out the response body
+                    console.log(body)
+
+                    const headersInsert = {
+                        'User-Agent': 'Super Agent/0.0.1',
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+
+                    const ipBusca = JSON.parse(body)
+
+                    console.log('BOODYY  ', ipBusca.ipaddr)
+
+                    // Configure the request
+                    const optionsInsert = {
+                        url: 'http://' + ipBusca.ipaddr + '/node/register',
+                        method: 'POST',
+                        headers: headersInsert,
+                        form: { address: myHostname, region_name: 'caruaru', token: '@BC0' }
+                    }
+
+                    request(optionsInsert, function(error, response, body) {
+                        console.log('RESPOSTA => ', body)
+                    })
+
+                }
+            })
+            
+            */
+            
+           /*  nodeBus.updateTags(address, tags)
+                .then(resp => {
+                    console.log('updated tags >' + resp)
+                })
+                .catch(err => {
+                    console.log('error while trying to update tags> ' + err)
+                }) */
+        }).catch(err => {
+            console.log('ERROR WHILE TRYING TO DOWNLOAD MEDIA.' + err)
+        })
+    
+}
+
 const headers = {
     'User-Agent': 'Super Agent/0.0.1',
     'Content-Type': 'application/x-www-form-urlencoded'
