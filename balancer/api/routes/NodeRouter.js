@@ -15,7 +15,52 @@ class nodeRouter {
         this.router = router
     }
 
+
+
+
+    findByTags(tags) {
+        return new Promise((resolve, reject) => {
+            this.repository.findByTags(tags)
+                .then(res =>{
+                    resolve(res)
+                }).catch(err => {
+                reject(err)
+            })
+        })
+    }
+
     initializeRoutes() {
+
+        router.get('/findByTags/:tags', (req, res) => {
+            const tags = req.params.tags
+            let ta = tags.replace(' ', '').split(',')
+            //console.log('PARAMMM ==>>>', ta)
+            this.nodeBusiness.findByTags(ta).then((resp) => {
+                res.send(resp)
+            }).catch((resp) => {
+                res.send(resp)
+            })
+        })
+
+        router.post('/insertFilms', (req, res) => {
+            const node = req.body.node
+
+            console.log(req.body.node)
+
+            this.nodeBusiness.insertFilms(node)
+                .then(result => {
+                    res.json({
+                        status: 'success',
+                        msg: result
+                    })
+                })
+                .catch(err => {
+                    res.json({
+                        status: 'error',
+                        error: err
+                    })
+                })
+        })
 
         router.post('/insertTags', (req, res) => {
             const tags = req.body.tags
@@ -40,20 +85,21 @@ class nodeRouter {
         })
 
         router.post('/register', (req, res) => {
-            const address = req.body.address
-            const token = req.body.token
-            const tags = req.body.tags
-            const regionName = req.body.region_name
 
-            console.log(req.body)
+            const node = req.body.node
 
-            if (token == TOKEN) {
-                const node = {
-                    address: address,
-                    region_name: regionName,
-                    tags: tags
+            console.log(req.body.node)
+
+            if (node.token == TOKEN) {
+
+                console.log('passou token')
+
+                const nodeN = {
+                    address: node.address,
+                    region_name: node.region_name,
+                    films: node.films
                 }
-                this.nodeBusiness.insert(node)
+                this.nodeBusiness.insert(nodeN)
                     .then((resp) => {
                         console.log('suc' + resp)
                         res.send(resp)

@@ -3,6 +3,26 @@ class nodeBusiness {
         this.repository = nodeRepository
     }
 
+    insertFilms(node){
+
+        console.log('FILMES A SEREM ADICIONADOS', node)
+
+        return new Promise((resolve, reject) => {
+            this.repository.findByAddress(node.address)
+                .then(dados =>{
+                    this.repository.insertFilms(node)
+                        .then(resp =>{
+                            resolve(resp)
+                        }).catch(err=>{
+                        reject(err)
+                    })
+                })
+                .catch(err=>{
+                    reject(err)
+                })
+        })
+    }
+
     updateTags(address, tags){
 
         console.log('busss', address, tags)
@@ -24,21 +44,40 @@ class nodeBusiness {
         })
     }
 
+    findByTags(tags) {
+        return new Promise((resolve, reject) => {
+            this.repository.findByTags(tags)
+                .then(res =>{
+                    resolve(res)
+                }).catch(err => {
+                    reject(err)
+            })
+        })
+    }
+
     insert(node) { // address, country_code, country_name, region_code, region_name, city
         return new Promise((resolve, reject) => {
+
+            console.log('addddr' , node.address)
+
             this.repository.findByAddress(node.address)
-                .catch((error) => {
-                    this.repository.insert(node)
-                        .then((resp) => {
-                            resolve(resp)
-                        })
-                        .catch((resp) => {
-                            reject(resp)
-                        })
-                })
                 .then((resp) => {
                     reject(resp)
-                })
+                }).catch((error) => {
+
+                console.log('nao exxxxiiste')
+
+                this.repository.insert(node)
+                    .then((resp) => {
+                        resolve(resp)
+                    })
+                    .catch((resp) => {
+
+                        console.log('nodezzz', node)
+
+                        reject(resp)
+                    })
+            })
         })
     }
 

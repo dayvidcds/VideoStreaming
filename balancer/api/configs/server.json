@@ -1,7 +1,7 @@
 {
     "blchostname": "",
     "myhostname": "balancer01.com",
-    "myport": 4001,
-    "dnsaddress": "http://10.1.3.191:4000",
+    "myport": 4000,
+    "dnsaddress": "http://localhost:5000",
     "regionname": "pernambuco"
 }
