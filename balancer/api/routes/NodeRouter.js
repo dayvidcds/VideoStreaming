@@ -31,7 +31,10 @@ class nodeRouter {
 
     initializeRoutes() {
 
-        router.get('/findByTags/:tags', (req, res) => {
+        router.get('/findByTags/:tags/:region', (req, res) => {
+
+            console.log(req.params.region)
+
             const tags = req.params.tags
             let ta = tags.replace(' ', '').split(',')
             //console.log('PARAMMM ==>>>', ta)

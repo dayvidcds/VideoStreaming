@@ -15,7 +15,7 @@ class NodeRepository {
                 route_video : { type : String },
                 title : { type: String},
                 tags : {type: [String]},
-                views : {type: Number}
+                num_views : [{region_name:String, views: Number}],
             }]
         })
         this.nodeModel = this.connection.model('Node', this.schema)
@@ -156,7 +156,7 @@ class NodeRepository {
                 if (err) {
                     reject(err)
                 }
-                console.log(res)
+               // console.log(res)
                 resolve(res)
             })})
     }

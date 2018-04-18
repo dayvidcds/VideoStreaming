@@ -51,6 +51,13 @@
         <h1>VideoFlix</h1><br>
         <input type="text" id="texto">
         <button id="botao">Buscar</button>
+        <br>
+        <select name="regiao" id="regiao">
+            <option value="">Região</option>
+            <option value="china">China</option>
+            <option value="eua" >Estados Unidos</option>
+            <option value="brasil" selected>Brasil</option>
+        </select>
         <div id="tb">
             <table>
                 <tr>
@@ -66,7 +73,12 @@
     </div>
 
     <script>
-        var resu = null
+        var findAddressRoute = 'http://192.168.137.240:5000/dns/findByAddress/'
+
+        function getValueRegion() {
+            console.log('regiao' + $('#regiao option:selected').val())
+            return $('#regiao option:selected').val()
+        }
 
         $('#texto').keyup(function(event) {
             if (event.keyCode === 13) {
@@ -79,11 +91,15 @@
             var tags = $('#texto').val();
             $('#tabela').empty()
 
-            $.get('http://192.168.137.240:5000/dns/findByAddress/' + 'balancer01.com', function(result) {
+            $.get(findAddressRoute + 'balancer01.com', function(result) {
 
                 console.log(result)
 
-                $.get('http://' + result.ipaddr + '/node/findByTags/' + tags, function(dados) {
+                var urlGetFilmsByTags = 'http://' + result.ipaddr + '/node/findByTags/' + tags + '/' + getValueRegion()
+
+                console.log('urlGetFilmsByTags', urlGetFilmsByTags)
+
+                $.get(urlGetFilmsByTags, function(dados) {
 
                     console.log('TAGS = ', tags)
 
@@ -104,10 +120,9 @@
             var title = event.textContent
             var end = $(event).prop('id')
 
-
-            $.get('http://192.168.137.240:5000/dns/findByAddress/' + end, function(result) {
+            $.get(findAddressRoute + end, function(result) {
                 //console.log(result)
-                $.get('http://' + result.ipaddr + '/film/find/' + title + '/sao paulo', function(resp) {
+                $.get('http://' + result.ipaddr + '/film/find/' + title + '/' + getValueRegion(), function(resp) {
                     console.log('RESULT FILME => ', resp)
                     $('#v1').attr('src', 'http://' + result.ipaddr + '/film/streaming/play/' + resp.res.route_video);
                 })
