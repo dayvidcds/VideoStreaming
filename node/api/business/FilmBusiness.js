@@ -74,8 +74,10 @@ class FilmBusiness {
         return new Promise((resolve, reject) => {
             this.repository.findViewsByRegion(region, filmTitle)
                 .then((resp) => {
+                    //console.log('RESSSSSSSSSS '  + resp)
                     resolve(resp)
                 }).catch((resp) => {
+                    //console.log('eeeeeeeeeerrr' + resp)
                     reject(resp)
                 })
         })
@@ -89,6 +91,16 @@ class FilmBusiness {
                 }).catch((resp) => {
                     reject(resp)
                 })
+        })
+    }
+
+    findFilmsReduce() {
+        return new Promise((resolve, reject) => {
+            this.repository.findFilmsReduce().then((resp) => {
+                resolve(resp)
+            }).catch((resp) => {
+                reject(resp)
+            })
         })
     }
 

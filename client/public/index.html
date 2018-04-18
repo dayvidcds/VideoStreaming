@@ -68,54 +68,51 @@
     <script>
         var resu = null
 
+        $('#texto').keyup(function(event) {
+            if (event.keyCode === 13) {
+                $("#botao").click();
+            }
+        });
+
         $('#botao').click(function() {
 
             var tags = $('#texto').val();
             $('#tabela').empty()
 
-            $.get('http://10.1.3.191:4000/dns/findByAddress/' + 'balancer01.com', function(result) {
+            $.get('http://192.168.137.240:5000/dns/findByAddress/' + 'balancer01.com', function(result) {
 
                 console.log(result)
 
-                $.get('http://' + result.ipaddr + '/node/findContentByTags/' + tags, function(dados) {
+                $.get('http://' + result.ipaddr + '/node/findByTags/' + tags, function(dados) {
 
-                    console.log('BALANCER->NODES = ', dados)
+                    console.log('TAGS = ', tags)
 
                     if (Array.isArray(dados)) {
 
                         for (var i = 0; i < dados.length; i++) {
 
-                            console.log(dados[i])
-
-                            $.get('http://10.1.3.191:4000/dns/findByAddress/' + dados[i].address, function(result) {
-
-                                $.get('http://' + result.ipaddr + '/film/findByTags/' + tags, function(dados) {
-
-
-                                    if (Array.isArray(dados)) {
-                                        for (var i = 0; dados.length > i; i++) {
-                                            $('#tabela').append('<tr><td id="' + result.ipaddr + '"onClick="buscar(' + 'this' + ')"> ' + dados[i].title + '</td>' + '<td>' + dados[i].tags + '</td></tr>')
-                                        }
-                                    }
-
-                                })
-
-                            })
+                            $('#tabela').append('<tr><td id="' + dados[i].address + '"onClick="buscar(' + 'this' + ')"> ' + dados[i].films.title + '</td>' + '<td>' + dados[i].films.tags + '</td></tr>')
                         }
-                    }
-                })
 
+                    }
+
+                })
             })
         })
 
         function buscar(event) {
             var title = event.textContent
             var end = $(event).prop('id')
-            $.get('http://' + end + '/film/find/' + title + '/caruaru', function(result) {
-                //alert(result.msg)
-                console.log('RESULT FILME => ', result)
-                $('#v1').attr('src', 'http://' + end + '/film/streaming/play/' + result.res.route_video);
+
+
+            $.get('http://192.168.137.240:5000/dns/findByAddress/' + end, function(result) {
+                //console.log(result)
+                $.get('http://' + result.ipaddr + '/film/find/' + title + '/sao paulo', function(resp) {
+                    console.log('RESULT FILME => ', resp)
+                    $('#v1').attr('src', 'http://' + result.ipaddr + '/film/streaming/play/' + resp.res.route_video);
+                })
             })
+
         }
     </script>
 
