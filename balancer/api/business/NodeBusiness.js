@@ -58,7 +58,7 @@ class nodeBusiness {
     insert(node) { // address, country_code, country_name, region_code, region_name, city
         return new Promise((resolve, reject) => {
 
-            console.log('addddr' , node.address)
+            console.log('addddr' , node)
 
             this.repository.findByAddress(node.address)
                 .then((resp) => {

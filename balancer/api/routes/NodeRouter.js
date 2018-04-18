@@ -100,7 +100,8 @@ class nodeRouter {
                 const nodeN = {
                     address: node.address,
                     region_name: node.region_name,
-                    films: node.films
+                    films: node.films,
+
                 }
                 this.nodeBusiness.insert(nodeN)
                     .then((resp) => {
