@@ -107,7 +107,7 @@
 
                         for (var i = 0; i < dados.length; i++) {
 
-                            $('#tabela').append('<tr><td id="' + dados[i].address + '"onClick="buscar(' + 'this' + ')"> ' + dados[i].films.title + '</td>' + '<td>' + dados[i].films.tags + '</td></tr>')
+                            $('#tabela').append('<tr><td style="cursor:pointer;" id="' + dados[i].address + '"onClick="buscar(' + 'this' + ')"> ' + dados[i].films.title + '</td>' + '<td>' + dados[i].films.tags + '</td></tr>')
                         }
 
                     }
