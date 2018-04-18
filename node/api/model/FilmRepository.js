@@ -115,12 +115,23 @@ class FilmRepository {
     findViewsByRegion(region, filmTitle) {
         return new Promise((resolve, reject) => {
             this.filmModel.find({ title: filmTitle, 'num_views.region_name': region }, (err, res) => {
-                console.log('ERRO -=:>', err, 'RESS=>', res)
+                //console.log('ERRO -=:>', err, 'RESS=>', res)
                 if (err || res[0] == undefined) {
-                    console.log('ERRO NA BUSCAAA')
+                    // console.log('ERRO NA BUSCAAA')
                     reject(err)
                 }
-                console.log('passou if errooor. indo pra resolve')
+                // console.log('passou if errooor. indo pra resolve')
+                resolve(res)
+            })
+        })
+    }
+
+    findFilmsReduce() {
+        return new Promise((resolve, reject) => {
+            this.filmModel.aggregate([{ $project: { title: 1, route_video: 1, tags: 1, _id: 0 } }], (err, res) => {
+                if (err || res[0] == undefined) {
+                    reject(err)
+                }
                 resolve(res)
             })
         })

@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-    <meta charset="utf-8">
-    <title>VideoFlix</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-</head>
+<body>
+    <h1>WELCOME TO VIDEO STREAM U.U!</h1><br><br>
+    <h2>Insira o video: </h2>
+    <form action="http://localhost:3001/film/insert" method="POST">
+        Title:<br>
+        <input type="text" name="title"><br> Route_video:
+        <br>
+        <input type="text" name="route_video"><br> Tags:
+        <br>
+        <input type="text" name="tags"><br>
+        <input type="submit" value="Submit">
+    </form>
 
-<body style="text-align:center">
-    <div style="margin:0 auto;">
-        <h1>VideoFlix</h1><br>
-        <!-- Mude o src dessa tag para o nome do video que você possuir -->
-        <video src="/film/streaming/play" controls="controls" id="vd" width="640" height="480"></video>
-    </div>
 </body>
 
 </html>

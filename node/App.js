@@ -3,6 +3,7 @@ const db = require('./api/model/ConnectionDB')
 const express = require('express')
 const bodyParser = require('body-parser')
 const request = require('request')
+const path = require('path')
 
 const IP = require('ip')
 
@@ -10,6 +11,7 @@ const config = require('./api/configs/server.json')
 
 const myHostname = config.myhostname
 const myIPaddr = IP.address() + ':' + config.myport
+const publicDir = path.join(__dirname, './public/')
 
 console.log('meu ip:' + myIPaddr)
 
@@ -69,7 +71,7 @@ request(options, function(error, response, body) {
         //console.log(body)
         //console.log('BOODYY  ', ipBusca.ipaddr)
 
-        filmBus.findTags().then((resp) => {
+        filmBus.findFilmsReduce().then((resp) => {
             const headersInsert = {
                 'User-Agent': 'Super Agent/0.0.1',
                 'Content-Type': 'application/x-www-form-urlencoded'
@@ -83,7 +85,7 @@ request(options, function(error, response, body) {
                 url: 'http://' + ipBusca.ipaddr + '/node/register',
                 method: 'POST',
                 headers: headersInsert,
-                form: { address: myHostname, region_name: 'caruaru', token: '@BC0', tags: resp }
+                form: { node: { address: myHostname, region_name: 'caruaru', token: '@BC0', films: resp } }
             }
 
             request(optionsInsert, function(error, response, body) {
@@ -108,7 +110,7 @@ app.use(function(req, res, next) {
 app.use('/film', filmRouter.router)
 
 app.use('/', (req, res) => {
-    res.send('WELCOME TO VIDEO STREAM U.U!')
+    res.sendFile(publicDir + './index.html')
 })
 
 module.exports = app

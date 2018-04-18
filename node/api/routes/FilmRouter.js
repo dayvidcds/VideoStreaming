@@ -11,6 +11,7 @@ const publicDir = path.join(__dirname, '../../public/')
 
 const DNS = config.dnsaddress
 const hostname = config.blchostname
+const myHostname = config.myhostname
 
 router.use(bodyParser.urlencoded({ extended: true }))
 router.use(bodyParser.json())
@@ -52,15 +53,14 @@ class FilmRouter {
                         }
 
                         const ipBusca = JSON.parse(body)
-                        const myHostname = config.myhostname
 
-                        console.log('BOODYY  ', ipBusca.ipaddr)
+                        //console.log('BOODYY  ', ipBusca.ipaddr)
 
                         const optionsInsert = {
-                            url: 'http://' + ipBusca.ipaddr + '/node/insertTags',
+                            url: 'http://' + ipBusca.ipaddr + '/node/insertFilms',
                             method: 'POST',
                             headers: headersInsert,
-                            form: { address: myHostname, tags: film.tags }
+                            form: { node: { address: myHostname, region_name: config.regionname, films: [film] } }
                         }
 
                         request(optionsInsert, function(error, response, body) {
