@@ -71,7 +71,7 @@ request(options, function(error, response, body) {
         //console.log(body)
         //console.log('BOODYY  ', ipBusca.ipaddr)
 
-        filmBus.findFilmsReduce().then((resp) => {
+        filmBus.findAll().then((resp) => {
             const headersInsert = {
                 'User-Agent': 'Super Agent/0.0.1',
                 'Content-Type': 'application/x-www-form-urlencoded'
@@ -81,11 +81,15 @@ request(options, function(error, response, body) {
 
             //console.log('TAGS => ', resp)
 
+            console.log('RESP VIEWWW ', JSON.stringify(resp))
+
             const optionsInsert = {
                 url: 'http://' + ipBusca.ipaddr + '/node/register',
                 method: 'POST',
                 headers: headersInsert,
-                form: { node: { address: myHostname, region_name: 'caruaru', token: '@BC0', films: resp } }
+                form: {
+                    node: { address: myHostname, region_name: 'caruaru', token: '@BC0', films: resp }
+                }
             }
 
             request(optionsInsert, function(error, response, body) {

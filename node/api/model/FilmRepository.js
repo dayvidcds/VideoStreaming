@@ -74,8 +74,8 @@ class FilmRepository {
 
     findAll() {
         return new Promise((resolve, reject) => {
-            this.filmModel.find((err, res) => {
-                if (err) {
+            this.filmModel.aggregate([{ $project: { title: 1, route_video: 1, tags: 1, num_views: 1, _id: 0 } }], (err, res) => {
+                if (err || res[0] == undefined) {
                     reject(err)
                 }
                 resolve(res)

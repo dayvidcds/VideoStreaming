@@ -90,7 +90,6 @@ class FilmRouter {
                         console.log('findViewsByRegion')
                         this.filmBusiness.addViews(client_region, title)
                             .then((resp) => {
-                                console.log('addViews')
                                 console.log(title + ' foi solicitado')
                             })
                             .catch((resp) => {
@@ -131,6 +130,10 @@ class FilmRouter {
             }).catch((resp) => {
                 res.send(resp)
             })
+        })
+
+        router.use('/stream', (req, res, next) => {
+            console.log('ENTROU NO MIDDD')
         })
 
         router.get('/streaming/play/:local', (req, res) => {
