@@ -9,23 +9,21 @@ router.use(bodyParser.json())
 const TOKEN = '@BC0'
 
 class nodeRouter {
+
     constructor(nodeBusiness) {
         this.nodeBusiness = nodeBusiness
         this.initializeRoutes()
         this.router = router
     }
 
-
-
-
     findByTags(tags) {
         return new Promise((resolve, reject) => {
             this.repository.findByTags(tags)
-                .then(res =>{
+                .then(res => {
                     resolve(res)
                 }).catch(err => {
-                reject(err)
-            })
+                    reject(err)
+                })
         })
     }
 
@@ -37,7 +35,7 @@ class nodeRouter {
 
             const tags = req.params.tags
             let ta = tags.replace(' ', '').split(',')
-            //console.log('PARAMMM ==>>>', ta)
+                //console.log('PARAMMM ==>>>', ta)
             this.nodeBusiness.findByTags(ta).then((resp) => {
                 res.send(resp)
             }).catch((resp) => {
@@ -99,9 +97,8 @@ class nodeRouter {
 
                 const nodeN = {
                     address: node.address,
-                    region_name: node.region_name,
-                    films: node.films,
-
+                    region_name: node.regionname,
+                    films: node.films
                 }
                 this.nodeBusiness.insert(nodeN)
                     .then((resp) => {

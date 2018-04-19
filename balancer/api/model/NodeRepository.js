@@ -12,26 +12,26 @@ class NodeRepository {
             city: { type: String, required: false },
             films: [{
                 _id: false,
-                route_video : { type : String },
-                title : { type: String},
-                tags : {type: [String]},
-                num_views : [{region_name:String, views: Number}],
+                route_video: { type: String },
+                title: { type: String },
+                tags: { type: [String] },
+                num_views: [{ region_name: String, views: Number }],
             }]
         })
         this.nodeModel = this.connection.model('Node', this.schema)
     }
 
-    insertFilms(node){
-//        films.forEach(film => {
+    insertFilms(node) {
+        //        films.forEach(film => {
 
         return new Promise((resolve, reject) => {
-            //this.nodeModel.findOneAndUpdate({address: node.address}, {$addToSet: {films: {$each: node.films}}}, (err, res) => {
+                //this.nodeModel.findOneAndUpdate({address: node.address}, {$addToSet: {films: {$each: node.films}}}, (err, res) => {
 
-//this.nodeModel.findOneAndUpdate({address: address, 'films.title':{$in:['video 02']}}, {$addToSet: {films: {$each: node.films}}}, (err, res) => {
+                //this.nodeModel.findOneAndUpdate({address: address, 'films.title':{$in:['video 02']}}, {$addToSet: {films: {$each: node.films}}}, (err, res) => {
 
-                console.log('FILMEEEEEEEEEEEE ' , node.films)
+                console.log('FILMEEEEEEEEEEEE ', node.films)
 
-                this.nodeModel.findOneAndUpdate({address: node.address}, {$addToSet: {films: {$each: node.films}}}, {upsert: true}, (err, res) => {
+                this.nodeModel.findOneAndUpdate({ address: node.address }, { $addToSet: { films: { $each: node.films } } }, { upsert: true }, (err, res) => {
                     if (err) {
                         reject(err);
                         return
@@ -42,8 +42,8 @@ class NodeRepository {
                     resolve(res)
                 })
 
-        })
-  //      })
+            })
+            //      })
     }
 
     updateTags(address, tags) {
@@ -63,7 +63,7 @@ class NodeRepository {
             const nodeRep = new this.nodeModel(node)
             nodeRep.save((err, res) => {
 
-                console.log('err, ' , err, ' res, ', res)
+                console.log('err, ', err, ' res, ', res)
 
                 if (err) {
                     reject(err)
@@ -97,7 +97,7 @@ class NodeRepository {
 
     findByAddress(address) {
         return new Promise((resolve, reject) => {
-            this.nodeModel.findOne({ address:  address }, (err, res) => {
+            this.nodeModel.findOne({ address: address }, (err, res) => {
                 if (err || res == null) {
 
                     console.log('err || res == null')
@@ -149,16 +149,17 @@ class NodeRepository {
             this.nodeModel.aggregate([{
                 $unwind: "$films"
             }, {
-                $match:{
-                    'films.tags': {$in:tags}
+                $match: {
+                    'films.tags': { $in: tags }
                 }
             }], (err, res) => {
                 if (err) {
                     reject(err)
                 }
-               // console.log(res)
+                // console.log(res)
                 resolve(res)
-            })})
+            })
+        })
     }
 }
 

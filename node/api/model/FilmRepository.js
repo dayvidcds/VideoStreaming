@@ -7,7 +7,7 @@ class FilmRepository {
             route_video: { type: String, required: true },
             tags: { type: [String], required: false },
             title: { type: String, required: true },
-            num_views: { type: [{ region_name: String, views: Number }], required: false }
+            num_views: { type: [{ _id: false, region_name: String, views: Number }], required: false }
         })
         this.filmModel = this.connection.model('Films', this.schema)
     }

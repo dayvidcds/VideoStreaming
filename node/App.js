@@ -10,7 +10,7 @@ const IP = require('ip')
 const config = require('./api/configs/server.json')
 
 const myHostname = config.myhostname
-const myIPaddr = IP.address() + ':' + config.myport
+const myIPaddr = '191.179.215.171' + ':' + config.myport
 const publicDir = path.join(__dirname, './public/')
 
 console.log('meu ip:' + myIPaddr)
@@ -81,14 +81,20 @@ request(options, function(error, response, body) {
 
             //console.log('TAGS => ', resp)
 
-            console.log('RESP VIEWWW ', JSON.stringify(resp))
+            // console.log('RESP VIEWWW ', JSON.stringify(resp))
+            //console.log('REGION NAME => ', config.regionname)
 
             const optionsInsert = {
                 url: 'http://' + ipBusca.ipaddr + '/node/register',
                 method: 'POST',
                 headers: headersInsert,
                 form: {
-                    node: { address: myHostname, region_name: 'caruaru', token: '@BC0', films: resp }
+                    node: {
+                        address: myHostname,
+                        regionname: config.regionname,
+                        token: '@BC0',
+                        films: resp
+                    }
                 }
             }
 

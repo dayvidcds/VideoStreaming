@@ -23,7 +23,7 @@ const configs = require('./api/configs/server.json')
 
 const io = require('socket.io-client')
 const myHostname = configs.myhostname
-const myIPaddr = ip.address() + ':' + configs.myport
+const myIPaddr = '191.179.215.171' + ':' + configs.myport
 const socket = io(configs.dnsaddress)
 
 app.use(bodyParser.json());
