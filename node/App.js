@@ -10,7 +10,7 @@ const IP = require('ip')
 const config = require('./api/configs/server.json')
 
 const myHostname = config.myhostname
-const myIPaddr = '191.179.215.171' + ':' + config.myport
+const myIPaddr = '192.168.43.196' + ':' + config.myport
 const publicDir = path.join(__dirname, './public/')
 
 console.log('meu ip:' + myIPaddr)
@@ -27,6 +27,8 @@ const FilmRouter = require('./api/routes/FilmRouter')
 const filmRep = new FilmRepository(db)
 const filmBus = new FilmBusiness(filmRep)
 const filmRouter = new FilmRouter(filmBus)
+
+const legenda = path.join(__dirname, './public/legendas/')
 
 const app = express()
 
@@ -112,10 +114,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(function(req, res, next) {
     // console.log(req.connection.remoteAddress)
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
+    res.header("Access-Control-Allow-Origin", "*")
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+    next()
 })
+
+//app.use('/legenda/', express.static(legenda))
 
 app.use('/film', filmRouter.router)
 

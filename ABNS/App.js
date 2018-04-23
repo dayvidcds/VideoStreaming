@@ -21,12 +21,10 @@ app.use(function(req, res, next) {
 app.use('/dns', dnsRouter.router)
 
 app.use('/', (req, res) => {
-    res.status(200).json(
-        {
-            status: 'working',
-            name: 'DNS'
-        }
-    )
+    res.status(200).json({
+        status: 'working',
+        name: 'DNS'
+    })
 })
 
 module.exports = server

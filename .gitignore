@@ -24,4 +24,5 @@ package-lock.json
 /client/npm-debug.log
 /client/.DS_Store
 /client/package-lock.json
+/client/public/legenda
 /client/.vscode

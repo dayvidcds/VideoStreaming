@@ -29,7 +29,8 @@ class FilmRouter {
             const film = {
                 route_video: req.body.route_video,
                 tags: req.body.tags.replace(' ', '').split(','),
-                title: req.body.title
+                title: req.body.title,
+                legend: req.body.legend
             }
             this.filmBusiness.insert(film).then((resp) => {
 
@@ -132,13 +133,15 @@ class FilmRouter {
             })
         })
 
-        router.use('/stream', (req, res, next) => {
-            console.log('ENTROU NO MIDDD')
+        router.get('/streaming/getLegenda/:pasta/:legenda', (req, res) => {
+            const legendaFile = 'movies/' + req.params.pasta + '/' + req.params.legenda
+            console.log('CHEGOUU ISSOOO =>', legendaFile)
+            fs.readFile(publicDir + './index.html', (err, html) => res.end(html))
         })
 
-        router.get('/streaming/play/:local', (req, res) => {
-            const movieFile = 'movies/' + req.params.local
-            console.log(movieFile)
+        router.get('/streaming/play/:pasta/:film', (req, res) => {
+            const movieFile = 'movies/' + req.params.pasta + '/' + req.params.film
+            console.log('STREAMING => ', movieFile)
             fs.stat(movieFile, (err, stats) => {
                 if (err) {
                     console.log(err);
